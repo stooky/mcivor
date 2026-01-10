@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { siteConfig } from '../config/site';
+---
+
+<Layout
+  title="Terms and Conditions"
+  description="Terms and conditions for C-Can Sam container sales, rentals, and storage services in Saskatchewan."
+>
+  <section class="bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-16">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl font-bold tracking-tight text-white">Terms and Conditions</h1>
+      <p class="mt-4 text-lg text-gray-300">Last updated: December 2024</p>
+    </div>
+  </section>
+
+  <section class="py-16">
+    <div class="mx-auto max-w-4xl px-4 sm:px-6 lg:px-8">
+      <div class="prose prose-lg max-w-none">
+        <p class="lead text-xl text-gray-600">
+          Welcome to C-Can Sam. By using our container storage, rental, and sales services, you agree to the following terms and conditions.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">Rental and Sales Agreements</h2>
+        <p class="text-gray-700">
+          All agreements for container rentals, sales, and storage services are subject to availability and the terms outlined in your specific contract. We provide containers for on-site or off-site use with agreed-upon duration, rates, and conditions.
+        </p>
+        <p class="text-gray-700">
+          Payments are due upon invoice, with late payments subject to additional charges as specified in your agreement.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">Use of Services</h2>
+        <p class="text-gray-700">
+          Containers must be used solely for legal purposes. Whether for moving across town or long-term site storage, customers bear responsibility for maintaining their container in the condition it was delivered.
+        </p>
+        <ul class="list-disc list-inside text-gray-700 space-y-2 mt-4">
+          <li>Containers may not be used for storing hazardous materials</li>
+          <li>Containers may not be used for illegal activities</li>
+          <li>Customers are responsible for any damage beyond normal wear and tear</li>
+          <li>Modifications to rental containers require prior written approval</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">Delivery and Placement</h2>
+        <p class="text-gray-700">
+          Delivery is available throughout Saskatchewan. Customers are responsible for ensuring adequate access and a suitable placement location. We require:
+        </p>
+        <ul class="list-disc list-inside text-gray-700 space-y-2 mt-4">
+          <li>Level, firm ground capable of supporting the container weight</li>
+          <li>Clear access for our delivery truck (minimum 12' width, 14' height clearance)</li>
+          <li>No overhead obstructions (power lines, trees, etc.)</li>
+          <li>Customer presence or authorized representative during delivery</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">Liability</h2>
+        <p class="text-gray-700">
+          We deliver all containers safe and secure. However, we are not liable for:
+        </p>
+        <ul class="list-disc list-inside text-gray-700 space-y-2 mt-4">
+          <li>Damages caused by misuse, accidents, or natural disasters</li>
+          <li>Loss or damage to items stored in containers</li>
+          <li>Delays in delivery due to weather or circumstances beyond our control</li>
+        </ul>
+        <p class="text-gray-700 mt-4">
+          Customers should follow safety guidelines when storing items and consider appropriate insurance coverage.
+        </p>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">Termination</h2>
+        <p class="text-gray-700">
+          We reserve the right to terminate services if terms are violated, including but not limited to:
+        </p>
+        <ul class="list-disc list-inside text-gray-700 space-y-2 mt-4">
+          <li>Improper use of the container</li>
+          <li>Failure to make payments</li>
+          <li>Storing prohibited materials</li>
+          <li>Violation of any term in this agreement</li>
+        </ul>
+
+        <h2 class="text-2xl font-bold text-gray-900 mt-12 mb-4">Contact Us</h2>
+        <p class="text-gray-700">
+          If you have questions about these terms, please contact us:
+        </p>
+        <div class="mt-4 p-6 bg-gray-50 rounded-lg">
+          <p class="font-semibold text-gray-900">{siteConfig.name}</p>
+          <p class="text-gray-700">{siteConfig.contact.address}</p>
+          <p class="text-gray-700">Phone: {siteConfig.contact.phone}</p>
+          <p class="text-gray-700">Email: {siteConfig.contact.email}</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</Layout>

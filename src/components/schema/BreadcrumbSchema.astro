@@ -1,0 +1,76 @@
+---
+/**
+ * BreadcrumbSchema Component
+ * Generates JSON-LD structured data for breadcrumb navigation
+ * Helps Google display navigation trail in search results
+ */
+import { siteConfig } from '../../config/site';
+
+interface BreadcrumbItem {
+  name: string;
+  href?: string;
+}
+
+interface Props {
+  items?: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+
+// If no items provided, generate from URL path
+const pathname = Astro.url.pathname;
+const pathSegments = pathname.split('/').filter(Boolean);
+
+// Map of path segments to human-readable names
+const pathNames: Record<string, string> = {
+  'containers': 'Containers',
+  'blog': 'Blog',
+  'storage-containers-for-sale': 'Buy Containers',
+  'storage-container-rentals': 'Rent Containers',
+  'storage-container-leasing': 'Lease Containers',
+  'on-site-storage-rentals': 'On-Site Storage',
+  'storage-container-sales-and-rentals': 'Our Containers',
+  'shipping-containers': 'Shipping Containers',
+  '20ft-standard': '20ft Standard',
+  '40ft-standard': '40ft Standard',
+  '40ft-high-cube': '40ft High Cube',
+  '9ft-mini': '9ft Mini',
+  'about': 'About',
+  'contact': 'Contact',
+  'referrals': 'Referral Program',
+  'privacy': 'Privacy Policy',
+  'terms': 'Terms & Conditions',
+  'inventory-checker': 'Check Inventory',
+};
+
+// Generate breadcrumb items from URL or use provided items
+const breadcrumbItems: BreadcrumbItem[] = items || [
+  { name: 'Home', href: '/' },
+  ...pathSegments.map((segment, index) => {
+    const href = '/' + pathSegments.slice(0, index + 1).join('/');
+    const isLast = index === pathSegments.length - 1;
+    return {
+      name: pathNames[segment] || segment.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+      href: isLast ? undefined : href
+    };
+  })
+];
+
+// Only generate schema if we have more than just "Home"
+const shouldRender = breadcrumbItems.length > 1;
+
+const schema = shouldRender ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    ...(item.href ? { "item": new URL(item.href, siteConfig.url).href } : {})
+  }))
+} : null;
+---
+
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

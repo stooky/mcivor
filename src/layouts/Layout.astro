@@ -1,0 +1,187 @@
+---
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
+import BreadcrumbSchema from '../components/schema/BreadcrumbSchema.astro';
+import { siteConfig } from '../config/site';
+import '../styles/global.css';
+
+// Build sameAs array for LocalBusiness schema (social profiles)
+const sameAsLinks = [
+  siteConfig.social.facebook,
+  siteConfig.social.instagram,
+  siteConfig.social.googleBusiness,
+  siteConfig.social.linkedin,
+  siteConfig.social.youtube,
+].filter(Boolean);
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  type?: 'website' | 'article';
+  publishedTime?: Date;
+  modifiedTime?: Date;
+  author?: string;
+}
+
+const {
+  title,
+  description = siteConfig.description,
+  image = siteConfig.defaultOgImage,
+  imageAlt = siteConfig.name,
+  type = 'website',
+  publishedTime,
+  modifiedTime,
+  author,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, siteConfig.url);
+const ogImageURL = new URL(image, siteConfig.url);
+const fullTitle = `${title} | ${siteConfig.name}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="canonical" href={canonicalURL} />
+
+    <!-- Primary Meta Tags -->
+    <title>{fullTitle}</title>
+    <meta name="title" content={fullTitle} />
+    <meta name="description" content={description} />
+    <meta name="author" content={author || siteConfig.name} />
+    <meta name="robots" content="index, follow" />
+    <meta name="theme-color" content="#E8B84A" />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content={type} />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImageURL} />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:site_name" content={siteConfig.name} />
+
+    {type === 'article' && publishedTime && (
+      <meta property="article:published_time" content={publishedTime.toISOString()} />
+    )}
+    {type === 'article' && modifiedTime && (
+      <meta property="article:modified_time" content={modifiedTime.toISOString()} />
+    )}
+    {type === 'article' && author && (
+      <meta property="article:author" content={author} />
+    )}
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonicalURL} />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImageURL} />
+
+    <!-- Fonts - optimized loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+      rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
+
+    <!-- Structured Data (LocalBusiness) -->
+    <script type="application/ld+json" set:html={JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": siteConfig.name,
+      "description": siteConfig.description,
+      "url": siteConfig.url,
+      "telephone": siteConfig.contact.phone,
+      "email": siteConfig.contact.email,
+      "logo": {
+        "@type": "ImageObject",
+        "url": `${siteConfig.url}/images/logo.png`,
+        "width": "512",
+        "height": "512"
+      },
+      "image": `${siteConfig.url}/images/logo.png`,
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": siteConfig.contact.address.street,
+        "addressLocality": siteConfig.contact.address.city,
+        "addressRegion": siteConfig.contact.address.state,
+        "postalCode": siteConfig.contact.address.zip,
+        "addressCountry": "CA"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": 52.2614082,
+        "longitude": -106.6082841
+      },
+      "openingHoursSpecification": [
+        {
+          "@type": "OpeningHoursSpecification",
+          "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+          "opens": "09:00",
+          "closes": "17:00"
+        }
+      ],
+      "priceRange": "$$",
+      "sameAs": sameAsLinks,
+      "serviceArea": {
+        "@type": "GeoCircle",
+        "geoMidpoint": {
+          "@type": "GeoCoordinates",
+          "latitude": 52.1579,
+          "longitude": -106.6702
+        },
+        "geoRadius": "200000"
+      }
+    })} />
+
+    <!-- Breadcrumb Schema -->
+    <BreadcrumbSchema />
+
+    <!-- Google Tag Manager -->
+    {siteConfig.analytics.googleTagManager.enabled && (
+      <script is:inline define:vars={{ gtmId: siteConfig.analytics.googleTagManager.containerId }}>
+        (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+        new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+        j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+        'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+        })(window,document,'script','dataLayer',gtmId);
+      </script>
+    )}
+  </head>
+  <body class="min-h-screen flex flex-col bg-white text-gray-900 antialiased">
+    <!-- Google Tag Manager (noscript) -->
+    {siteConfig.analytics.googleTagManager.enabled && (
+      <noscript>
+        <iframe
+          src={`https://www.googletagmanager.com/ns.html?id=${siteConfig.analytics.googleTagManager.containerId}`}
+          height="0"
+          width="0"
+          style="display:none;visibility:hidden">
+        </iframe>
+      </noscript>
+    )}
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+    <Navigation />
+    <main id="main-content" class="flex-1">
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

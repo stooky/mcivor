@@ -1,0 +1,442 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import Section from '../components/Section.astro';
+import CTA from '../components/CTA.astro';
+import ReviewWidget from '../components/ReviewWidget.astro';
+import { siteConfig } from '../config/site';
+import heroImage from '../assets/images/onsite-storage-hero.webp';
+
+// WhatsApp link with pre-filled message
+const whatsappLink = `${siteConfig.social.whatsapp}?text=${encodeURIComponent("Hi! I'm interested in on-site container storage at your Martensville facility.")}`;
+const phoneLink = `tel:${siteConfig.contact.phoneLocal.replace(/\D/g, '')}`;
+
+// Container specifications with drop-off fees
+const containers = [
+  {
+    size: "20' Standard",
+    dimensions: "20' L × 8' W × 8'6\" H",
+    capacity: "1,172 cubic feet",
+    dropOffFee: "$150",
+    ideal: "Small moves, seasonal items, tools & equipment",
+  },
+  {
+    size: "40' Standard",
+    dimensions: "40' L × 8' W × 8'6\" H",
+    capacity: "2,390 cubic feet",
+    dropOffFee: "$250",
+    ideal: "Full household, business inventory, large equipment",
+  },
+  {
+    size: "40' High Cube",
+    dimensions: "40' L × 8' W × 9'6\" H",
+    capacity: "2,694 cubic feet",
+    dropOffFee: "$300",
+    ideal: "Maximum storage, tall items, commercial use",
+  },
+];
+
+// Loading options
+const loadingOptions = [
+  {
+    title: "Load at Our Facility",
+    description: "Bring your items to our secure Martensville location and load directly into your rented container. No extra fees—just convenient access during business hours.",
+    icon: `<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" /></svg>`,
+    highlights: ["No additional fees", "Flexible scheduling", "Drive right up to your container"],
+  },
+  {
+    title: "Drop-Off Service",
+    description: "For your convenience, we can deliver a container to your location. Load at your own pace, then we'll pick it up and return it to our secure facility.",
+    icon: `<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>`,
+    highlights: ["$150-$300 within 50km", "Load at your own pace", "We handle all the transport"],
+  },
+];
+
+// Benefits of facility storage
+const benefits = [
+  {
+    title: "24/7 Security",
+    description: "Your belongings are protected around the clock at our monitored Martensville facility.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>`,
+  },
+  {
+    title: "Weatherproof Storage",
+    description: "Steel construction protects against Saskatchewan's harshest weather conditions.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" /></svg>`,
+  },
+  {
+    title: "Easy Access",
+    description: "Visit your container during business hours. Located just minutes from Saskatoon.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" /></svg>`,
+  },
+  {
+    title: "Flexible Terms",
+    description: "Month-to-month rentals with no long-term commitment required.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6.75 3v2.25M17.25 3v2.25M3 18.75V7.5a2.25 2.25 0 012.25-2.25h13.5A2.25 2.25 0 0121 7.5v11.25m-18 0A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75m-18 0v-7.5A2.25 2.25 0 015.25 9h13.5A2.25 2.25 0 0121 11.25v7.5" /></svg>`,
+  },
+];
+
+// FAQs
+const faqs = [
+  {
+    question: "Where is my container stored?",
+    answer: "Your container is stored at our secure facility in Martensville, SK. You can access your belongings during our business hours. The facility is monitored and protected from the elements.",
+  },
+  {
+    question: "What is the drop-off service?",
+    answer: "For added convenience, we can deliver a container to your location so you can load it at your own pace. Once you're done, we pick it up and bring it back to our secure facility. This optional service costs $150-$300 within 50km depending on container size. Locations beyond 50km are quoted individually.",
+  },
+  {
+    question: "How much does the drop-off service cost?",
+    answer: "Within 50km of Martensville: 20' containers are $150, 40' Standard containers are $250, and 40' High Cube containers are $300. This covers both delivery and pickup. For locations beyond 50km, we'll provide a custom quote.",
+  },
+  {
+    question: "Can I access my container anytime?",
+    answer: "You can access your container during our regular business hours (Monday-Friday, 9 AM - 5 PM). Saturday access is available by appointment. Just give us a call to arrange a convenient time.",
+  },
+  {
+    question: "How long can I rent a container?",
+    answer: "Our rentals are flexible with month-to-month terms. There's no long-term commitment required—rent for as long as you need, whether it's a few months or several years.",
+  },
+  {
+    question: "What can I store in the container?",
+    answer: "You can store most household items, business inventory, equipment, seasonal items, and more. We don't allow hazardous materials, perishables, or anything illegal. If you're unsure about a specific item, just ask!",
+  },
+];
+---
+
+<Layout
+  title="On-Site Container Storage"
+  description="Secure container storage at our monitored facility located close to Saskatoon. Optional drop-off service available—we deliver, you load, we pick up. Month-to-month rentals with no long-term contracts."
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-20 sm:py-28">
+    <div class="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-10"></div>
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <span class="inline-flex items-center rounded-full bg-primary-500/10 px-4 py-1.5 text-sm font-medium text-primary-300 ring-1 ring-inset ring-primary-500/20">
+            Secure Facility Storage - Month-to-Month
+          </span>
+          <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            On-Site Container
+            <span class="text-primary-400">Storage</span>
+          </h1>
+          <p class="mt-6 text-lg leading-8 text-gray-300">
+            Secure, affordable storage at our Martensville facility. Need help loading? We offer optional drop-off service—we'll bring a container to you, then pick it up when you're done.
+          </p>
+
+          <!-- Primary CTAs -->
+          <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-green-500 hover:shadow-xl"
+            >
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              WhatsApp Us Now
+            </a>
+            <a
+              href={phoneLink}
+              class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-100 hover:shadow-xl"
+            >
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+              Call {siteConfig.contact.phoneLocal}
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Image -->
+        <div class="relative">
+          <div class="overflow-hidden rounded-2xl shadow-2xl">
+            <Image 
+              src={heroImage} 
+              alt="Shipping container in Saskatchewan winter snow"
+              class="w-full h-auto object-cover"
+              widths={[600, 900, 1200, 1400]}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              loading="eager"
+            />
+          </div>
+          <!-- Floating badge -->
+          <div class="absolute -bottom-4 -left-4 rounded-xl bg-primary-600 px-4 py-3 shadow-lg">
+            <p class="text-sm font-semibold text-white">Secure Storage in</p>
+            <p class="text-lg font-bold text-white">Martensville, SK</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Banner -->
+  <div class="bg-primary-600 py-4">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-center font-bold text-white">
+        <span>Storage at our facility</span>
+        <span class="hidden sm:inline">•</span>
+        <span>Optional drop-off for loading</span>
+        <span class="hidden sm:inline">•</span>
+        <span>Month-to-month terms</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Container Options -->
+  <Section
+    title="Container Sizes & Optional Drop-Off Fees"
+    subtitle="All containers stored securely at our Martensville facility. Optional drop-off service available."
+    background="gray"
+  >
+    <div class="grid gap-6 lg:grid-cols-3">
+      {containers.map((container, index) => (
+        <div class={`relative rounded-2xl bg-white p-6 shadow-sm transition-shadow hover:shadow-lg ${index === 1 ? 'ring-2 ring-primary-500' : ''}`}>
+          {index === 1 && (
+            <span class="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-primary-500 px-4 py-1 text-sm font-semibold text-white">
+              Most Popular
+            </span>
+          )}
+
+          <!-- Container Visual -->
+          <div class="aspect-[3/2] overflow-hidden rounded-xl bg-gray-100">
+            {index === 0 && (
+              <picture>
+                <source
+                  srcset="/images/containers/20ft-standard-400w.webp 400w, /images/containers/20ft-standard-600w.webp 600w, /images/containers/20ft-standard-800w.webp 800w"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  type="image/webp"
+                />
+                <img
+                  src="/images/containers/20ft-standard.jpg"
+                  alt="20 foot standard shipping container with C-Can Sam branding in Saskatchewan winter"
+                  class="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="400"
+                />
+              </picture>
+            )}
+            {index === 1 && (
+              <picture>
+                <source
+                  srcset="/images/containers/40ft-standard-400w.webp 400w, /images/containers/40ft-standard-600w.webp 600w, /images/containers/40ft-standard-800w.webp 800w"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  type="image/webp"
+                />
+                <img
+                  src="/images/containers/40ft-standard-new.jpg"
+                  alt="40 foot standard shipping container in Saskatchewan winter snow"
+                  class="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="400"
+                />
+              </picture>
+            )}
+            {index === 2 && (
+              <picture>
+                <source
+                  srcset="/images/containers/40ft-highcube-400w.webp 400w, /images/containers/40ft-highcube-600w.webp 600w, /images/containers/40ft-highcube-800w.webp 800w"
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  type="image/webp"
+                />
+                <img
+                  src="/images/containers/40ft-highcube-new.jpg"
+                  alt="40 foot high cube shipping container with C-Can Sam branding in Saskatchewan winter"
+                  class="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                  loading="lazy"
+                  decoding="async"
+                  width="600"
+                  height="400"
+                />
+              </picture>
+            )}
+          </div>
+
+          <h3 class="mt-4 text-xl font-bold text-gray-900">{container.size}</h3>
+
+          <dl class="mt-4 space-y-2 text-sm">
+            <div class="flex justify-between">
+              <dt class="text-gray-500">Dimensions</dt>
+              <dd class="font-medium text-gray-900">{container.dimensions}</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-gray-500">Capacity</dt>
+              <dd class="font-medium text-gray-900">{container.capacity}</dd>
+            </div>
+            <div class="flex justify-between">
+              <dt class="text-gray-500">Drop-off fee</dt>
+              <dd class="font-medium text-secondary-600">{container.dropOffFee} <span class="text-xs text-gray-400">(within 50km)</span></dd>
+            </div>
+          </dl>
+
+          
+          <div class="mt-6 flex gap-2">
+            <a
+              href={whatsappLink}
+              class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-green-600 px-3 py-3 font-semibold text-white transition-colors hover:bg-green-500"
+            >
+              <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              WhatsApp Us
+            </a>
+            <a
+              href={phoneLink}
+              class="flex flex-1 items-center justify-center gap-2 rounded-lg bg-primary-600 px-3 py-3 font-semibold text-white transition-colors hover:bg-primary-500"
+            >
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+              Call Us
+            </a>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <p class="mt-8 text-center text-gray-600">
+      Storage rates vary based on container condition (new/used) and rental duration. Drop-off fees shown are within 50km.
+      <br /><strong>Beyond 50km?</strong> <a href={phoneLink} class="font-medium text-primary-600 hover:text-primary-700">Call us</a> for a custom quote.
+    </p>
+  </Section>
+
+  <!-- Two Ways to Load Section -->
+  <Section
+    title="Two Ways to Load Your Container"
+    subtitle="Choose the option that works best for you"
+  >
+    <div class="grid gap-8 lg:grid-cols-2">
+      {loadingOptions.map((option, index) => (
+        <div class={`relative rounded-2xl p-8 ${index === 0 ? 'bg-gray-50 border-2 border-gray-200' : 'bg-secondary-50 border-2 border-secondary-200'}`}>
+          {index === 1 && (
+            <div class="absolute -top-3 left-6 bg-secondary-600 text-white text-xs font-bold px-3 py-1 rounded-full">
+              OPTIONAL SERVICE
+            </div>
+          )}
+          <div class={`flex h-14 w-14 items-center justify-center rounded-xl ${index === 0 ? 'bg-gray-200 text-gray-700' : 'bg-secondary-200 text-secondary-700'}`}>
+            <Fragment set:html={option.icon} />
+          </div>
+          <h3 class="mt-4 text-xl font-bold text-gray-900">{option.title}</h3>
+          <p class="mt-2 text-gray-600">{option.description}</p>
+          <ul class="mt-4 space-y-2">
+            {option.highlights.map((highlight) => (
+              <li class="flex items-center gap-2 text-sm">
+                <svg class={`h-5 w-5 flex-shrink-0 ${index === 0 ? 'text-gray-600' : 'text-secondary-600'}`} fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                <span class="text-gray-700">{highlight}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Benefits Section -->
+  <Section
+    title="Why Store With Us?"
+    subtitle="Secure facility storage with the flexibility you need"
+    background="gray"
+  >
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {benefits.map((benefit) => (
+        <div class="text-center">
+          <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+            <Fragment set:html={benefit.icon} />
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900">{benefit.title}</h3>
+          <p class="mt-2 text-gray-600">{benefit.description}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Who Uses Our Storage Section -->
+  <Section
+    title="Who Uses Our Storage?"
+    subtitle="Trusted by homeowners and businesses across Saskatchewan"
+    background="gray"
+  >
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div class="rounded-lg bg-white p-6 shadow-sm">
+        <h3 class="font-semibold text-gray-900">Homeowners</h3>
+        <p class="mt-2 text-gray-600">Decluttering, renovations, seasonal items, or downsizing—keep your belongings safe without cluttering your property.</p>
+      </div>
+      <div class="rounded-lg bg-white p-6 shadow-sm">
+        <h3 class="font-semibold text-gray-900">Businesses</h3>
+        <p class="mt-2 text-gray-600">Store inventory, equipment, documents, or seasonal stock securely and affordably.</p>
+      </div>
+      <div class="rounded-lg bg-white p-6 shadow-sm">
+        <h3 class="font-semibold text-gray-900">Contractors</h3>
+        <p class="mt-2 text-gray-600">Tools, materials, and equipment storage between jobs. Easy access when you need it.</p>
+      </div>
+      <div class="rounded-lg bg-white p-6 shadow-sm">
+        <h3 class="font-semibold text-gray-900">Farmers & Ranchers</h3>
+        <p class="mt-2 text-gray-600">Protect equipment, feed, and supplies from the elements. Weatherproof and rodent-resistant.</p>
+      </div>
+      <div class="rounded-lg bg-white p-6 shadow-sm">
+        <h3 class="font-semibold text-gray-900">People Moving</h3>
+        <p class="mt-2 text-gray-600">Between homes? Store your belongings safely while you transition. Use our drop-off service for easy loading.</p>
+      </div>
+      <div class="rounded-lg bg-white p-6 shadow-sm">
+        <h3 class="font-semibold text-gray-900">Event Organizers</h3>
+        <p class="mt-2 text-gray-600">Store equipment, supplies, and materials for festivals, fairs, and community events.</p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- FAQs Section -->
+  <Section
+    title="Frequently Asked Questions"
+    subtitle="Everything you need to know about our on-site storage"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="divide-y divide-gray-200">
+        {faqs.map((faq) => (
+          <div class="py-6">
+            <h3 class="text-lg font-semibold text-gray-900">{faq.question}</h3>
+            <p class="mt-2 text-gray-600">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Contact Form CTA -->
+  <Section background="gray">
+    <div class="text-center">
+      <h2 class="text-2xl font-bold text-gray-900">Prefer to Send Us a Message?</h2>
+      <p class="mt-2 text-gray-600">Fill out our contact form and we'll get back to you within 24 hours.</p>
+      <div class="mt-6">
+        <a
+          href="/contact"
+          class="inline-flex items-center gap-2 rounded-lg border-2 border-primary-600 px-6 py-3 text-primary-600 font-medium hover:bg-primary-600 hover:text-white transition-colors"
+        >
+          Go to Contact Form
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Google Reviews Widget -->
+  <ReviewWidget pagePath="/on-site-storage-rentals" />
+
+  <!-- Final CTA -->
+  <CTA
+    title="Ready to Store Your Belongings?"
+    description="Contact us today to reserve your container. Quick response, competitive rates, and flexible terms."
+    primaryButton={{ text: "WhatsApp Us", href: "https://wa.me/13062814100?text=Hello!%20I'm%20ready%20to%20reserve%20a%20storage%20container." }}
+    secondaryButton={{ text: "Call Now", href: `tel:${siteConfig.contact.phone}` }}
+  />
+</Layout>

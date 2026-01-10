@@ -1,0 +1,283 @@
+# =============================================================================
+# Astro SMB Full - Site Configuration
+# =============================================================================
+# This is the single source of truth for all site settings.
+# Used by both the Astro frontend and PHP backend.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Site Identity
+# -----------------------------------------------------------------------------
+site:
+  name: "Acme Corp"
+  tagline: "Your Trusted Business Partner"
+  description: "Professional services and solutions for your business needs. Quality, reliability, and exceptional customer service."
+  url: "https://example.com"
+  default_og_image: "/images/logo.png"
+
+# -----------------------------------------------------------------------------
+# Product Pricing (in your currency)
+# -----------------------------------------------------------------------------
+# Prices are controlled here and used for:
+# - Display on product pages
+# - Product schema for Google rich results
+# Set to null if not available
+#
+products:
+  currency: "USD"
+  items:
+    - size: "Small"
+      slug: "small-package"
+      name: "Small Package"
+      description: "Perfect for individuals and small projects. Our entry-level solution."
+      new: { min: 99, max: 149 }
+      used: null
+    - size: "Medium"
+      slug: "medium-package"
+      name: "Medium Package"
+      description: "Ideal for growing businesses. Our most popular option."
+      new: { min: 299, max: 399 }
+      used: { min: 199, max: 249 }
+    - size: "Large"
+      slug: "large-package"
+      name: "Large Package"
+      description: "For enterprises requiring maximum capacity and features."
+      new: null
+      used: { min: 499, max: 599 }
+    - size: "Premium"
+      slug: "premium-package"
+      name: "Premium Package"
+      description: "Our top-tier offering with all features and priority support."
+      new: { min: 799, max: 999 }
+      used: { min: 599, max: 699 }
+
+# -----------------------------------------------------------------------------
+# Contact Information
+# -----------------------------------------------------------------------------
+contact:
+  email: "hello@example.com"
+  phone: "1-800-555-0100"
+  phone_local: "555-0100"
+  address:
+    street: "123 Main Street"
+    city: "Anytown"
+    state: "CA"
+    zip: "90210"
+    country: "USA"
+
+# -----------------------------------------------------------------------------
+# Business Hours
+# -----------------------------------------------------------------------------
+hours:
+  monday: "9:00 AM - 5:00 PM"
+  tuesday: "9:00 AM - 5:00 PM"
+  wednesday: "9:00 AM - 5:00 PM"
+  thursday: "9:00 AM - 5:00 PM"
+  friday: "9:00 AM - 5:00 PM"
+  saturday: "By Appointment"
+  sunday: "Closed"
+
+# -----------------------------------------------------------------------------
+# Social Media Links (leave empty to hide)
+# -----------------------------------------------------------------------------
+social:
+  facebook: "https://facebook.com/yourpage"
+  instagram: "https://instagram.com/yourpage"
+  twitter: ""
+  linkedin: "https://linkedin.com/company/yourcompany"
+  youtube: ""
+  whatsapp: ""
+  google_business: ""
+
+# -----------------------------------------------------------------------------
+# Navigation
+# -----------------------------------------------------------------------------
+navigation:
+  # Main navigation (header)
+  main:
+    - name: "Home"
+      href: "/"
+    - name: "Services"
+      href: "/services"
+      children:
+        - name: "Buy"
+          href: "/services/buy"
+        - name: "Rent"
+          href: "/services/rent"
+        - name: "Lease"
+          href: "/services/lease"
+    - name: "Products"
+      href: "/products"
+    - name: "Blog"
+      href: "/blog"
+    - name: "About"
+      href: "/about"
+    - name: "Contact"
+      href: "/contact"
+
+  # Footer links
+  footer:
+    # Services - core offerings (primary SEO value)
+    services:
+      - name: "Buy"
+        href: "/services/buy"
+      - name: "Rent"
+        href: "/services/rent"
+      - name: "Lease"
+        href: "/services/lease"
+      - name: "Custom Solutions"
+        href: "/services/custom"
+    # Products - specific product types (product SEO)
+    products:
+      - name: "Small Package"
+        href: "/products/small-package"
+      - name: "Medium Package"
+        href: "/products/medium-package"
+      - name: "Large Package"
+        href: "/products/large-package"
+      - name: "Premium Package"
+        href: "/products/premium-package"
+    # Company - trust signals and engagement
+    company:
+      - name: "About Us"
+        href: "/about"
+      - name: "Blog"
+        href: "/blog"
+      - name: "Referral Program"
+        href: "/referrals"
+      - name: "Contact"
+        href: "/contact"
+    # Legal - compliance (required)
+    legal:
+      - name: "Privacy Policy"
+        href: "/privacy"
+      - name: "Terms & Conditions"
+        href: "/terms"
+
+# -----------------------------------------------------------------------------
+# Analytics & Tracking
+# -----------------------------------------------------------------------------
+# All tracking scripts only load after user accepts "Analytics" cookies.
+# Leave IDs empty to disable.
+#
+analytics:
+  # Google Analytics 4
+  google_analytics:
+    enabled: false
+    measurement_id: ""
+
+  # Google Tag Manager (handles GA4 + other tags)
+  google_tag_manager:
+    enabled: false
+    container_id: ""
+
+# -----------------------------------------------------------------------------
+# Contact Form Settings (PHP Backend)
+# -----------------------------------------------------------------------------
+contact_form:
+  # Email address to receive form submissions
+  recipient_email: "hello@example.com"
+
+  # Email subject prefix
+  subject_prefix: "[Website Contact]"
+
+# -----------------------------------------------------------------------------
+# Email Sending (Resend API)
+# -----------------------------------------------------------------------------
+# Sign up at https://resend.com (free: 3,000 emails/month)
+# 1. Create account -> Get API key
+# 2. Add & verify your domain (or use onboarding@resend.dev for testing)
+# 3. Paste API key below
+email:
+  # Resend API key (starts with "re_")
+  # Leave empty to fall back to PHP mail() - often lands in spam
+  resend_api_key: ""
+
+  # From email address
+  # Must be from a verified domain in Resend, or use: onboarding@resend.dev
+  from_email: "Acme Corp <hello@example.com>"
+
+# -----------------------------------------------------------------------------
+# Admin Panel Settings
+# -----------------------------------------------------------------------------
+admin:
+  # Secret URL path for admin access (e.g., /api/admin.php?key=your-secret-here)
+  # Change this to something unique and hard to guess!
+  secret_path: "change-this-secret-2024"
+
+  # Number of submissions to show per page
+  per_page: 50
+
+# -----------------------------------------------------------------------------
+# Logging Settings
+# -----------------------------------------------------------------------------
+logging:
+  # Where to store submission logs (relative to site root)
+  submissions_file: "data/submissions.json"
+
+  # Maximum log file size in MB before rotation
+  max_size_mb: 10
+
+# -----------------------------------------------------------------------------
+# Security Settings
+# -----------------------------------------------------------------------------
+security:
+  # Honeypot field name (for spam prevention)
+  honeypot_field: "website_url"
+
+  # Rate limiting: max submissions per IP per hour
+  rate_limit: 10
+
+# -----------------------------------------------------------------------------
+# URL Redirects (301 Permanent)
+# -----------------------------------------------------------------------------
+# These redirects are applied by nginx during deployment.
+# Format: old_path: new_path
+#
+redirects:
+  # Add your redirects here
+  # /old-page/: /new-page/
+
+# -----------------------------------------------------------------------------
+# Review Widgets
+# -----------------------------------------------------------------------------
+# Display reviews on pages. Run "Tag Reviews" in admin to auto-assign
+# reviews to pages using AI, or manually edit the tagged section.
+#
+# Layouts:
+#   - featured: Large cards with prominent stars (Home, About)
+#   - standard: Medium cards with nav arrows (Service pages)
+#   - compact: Minimal inline style (Product pages)
+#   - 3-row: Three cards side by side, scroll one at a time
+#
+# Positions:
+#   - before-cta: Above the call-to-action section
+#   - after-hero: Right after the hero section
+#
+reviews:
+  # Pages that display review widgets
+  pages:
+    - path: "/"
+      layout: "featured"
+      position: "before-cta"
+      max_reviews: 3
+      ai_prompt: "All 5 star reviews"
+    - path: "/about"
+      layout: "standard"
+      position: "before-cta"
+      max_reviews: 3
+      ai_prompt: "Reviews mentioning trust, service quality, or personal experience"
+    - path: "/services/buy"
+      layout: "3-row"
+      position: "after-hero"
+      max_reviews: 6
+      ai_prompt: "Reviews about buying or purchasing"
+    - path: "/services/rent"
+      layout: "3-row"
+      position: "after-hero"
+      max_reviews: 6
+      ai_prompt: "Reviews about renting or rentals"
+
+  # Review-to-page mappings (auto-populated by "Tag Reviews" in admin)
+  # Format: review_id: ["/path1", "/path2"]
+  tagged: {}

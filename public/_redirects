@@ -1,0 +1,33 @@
+# C-Can Sam URL Redirects
+# Old WordPress URLs -> New Astro URLs
+
+# Pages
+/homepage/                                    /                                      301
+/shipping-containers/                         /                                      301
+/shipping-containers-draft/                   /                                      301
+/rentals/                                     /storage-container-rentals/            301
+/sales/                                       /storage-containers-for-sale/          301
+/off-site-storage/                            /on-site-storage-rentals/              301
+/our-containers/                              /storage-containers-for-sale/          301
+/our-containers/20ft-standard-container/      /containers/20ft-standard/             301
+/our-containers/40ft-standard-container/      /containers/40ft-standard/             301
+/our-containers/40ft-high-cube/               /containers/40ft-high-cube/            301
+/blogpage/                                    /blog/                                 301
+/frequently-asked-questions/                  /                                      301
+/sitemap/                                     /sitemap-index.xml                     301
+/terms-and-conditions/                        /terms/                                301
+/privacy-policy/                              /privacy/                              301
+
+# Blog Posts
+/eco-friendly-uses-of-sea-can-for-summer-projects/                      /blog/eco-friendly-seacan-uses/                301
+/buy-used-shipping-containers-in-canada/                                /blog/buy-used-shipping-containers-canada/     301
+/shipping-container-for-sale-5-smart-tips/                              /blog/5-smart-tips-buying-containers/          301
+/7-things-you-need-to-know-before-buying-a-used-shipping-container/     /blog/7-things-buying-used-container/          301
+/renovating-shipping-containers-turning-steel-into-homes/               /blog/container-homes-steel-into-living/       301
+/what-is-a-seacan-one-tripper-sustainable-solutions/                    /blog/what-is-one-trip-container/              301
+/portable-storage-solutions-rent-containers-today/                      /storage-container-rentals/                    301
+/shipping-containers-offices-and-retail-spaces/                         /blog/                                         301
+/invest-in-a-seacan-for-sale/                                           /storage-containers-for-sale/                  301
+/should-you-rent-or-buy-a-container/                                    /blog/                                         301
+/optimize-your-dorm-space-practical-storage-solutions/                  /blog/                                         301
+/maximizing-efficiency-in-construction-and-renovation-projects/         /blog/                                         301

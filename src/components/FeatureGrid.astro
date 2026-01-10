@@ -1,0 +1,53 @@
+---
+interface Feature {
+  title: string;
+  description: string;
+  icon?: string;
+  href?: string;
+}
+
+interface Props {
+  features: Feature[];
+  columns?: 2 | 3 | 4;
+}
+
+const { features, columns = 3 } = Astro.props;
+
+const gridCols = {
+  2: 'md:grid-cols-2',
+  3: 'md:grid-cols-2 lg:grid-cols-3',
+  4: 'md:grid-cols-2 lg:grid-cols-4',
+};
+
+// Default icons if none provided
+const defaultIcon = `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`;
+---
+
+<div class={`grid grid-cols-1 gap-8 ${gridCols[columns]}`}>
+  {features.map((feature) => (
+    <div class="relative flex flex-col">
+      <div class="flex h-12 w-12 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+        <Fragment set:html={feature.icon || defaultIcon} />
+      </div>
+      <h3 class="mt-4 text-lg font-semibold text-gray-900">
+        {feature.title}
+      </h3>
+      <p class="mt-2 flex-grow text-gray-600">
+        {feature.description}
+      </p>
+      {feature.href && (
+        <div class="mt-4">
+          <a
+            href={feature.href}
+            class="inline-flex items-center gap-2 rounded-lg border-2 border-primary-600 px-4 py-2 text-sm font-medium text-primary-600 transition-all hover:bg-primary-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2"
+          >
+            See Details
+            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+        </div>
+      )}
+    </div>
+  ))}
+</div>

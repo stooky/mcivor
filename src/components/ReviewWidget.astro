@@ -1,0 +1,388 @@
+---
+/**
+ * Review Widget Component
+ * Displays Google reviews with navigation
+ *
+ * Layouts:
+ * - featured: Large cards, prominent stars (Home, About)
+ * - standard: Medium cards with nav (Service pages)
+ * - compact: Minimal inline style (Product pages)
+ * - 3-row: Three cards side by side, scroll one at a time
+ */
+import { getReviewsForPage, type Review } from '../config/site';
+
+interface Props {
+  pagePath: string;
+}
+
+const { pagePath } = Astro.props;
+const { reviews, config } = getReviewsForPage(pagePath);
+
+// Don't render if no reviews or no config
+if (!config || reviews.length === 0) {
+  return null;
+}
+
+const { layout } = config;
+
+// Generate star SVG
+function getStars(rating: number): string {
+  const fullStar = `<svg class="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>`;
+  return fullStar.repeat(rating);
+}
+
+// Calculate relative time
+function getRelativeTime(dateStr: string): string {
+  const date = new Date(dateStr);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+
+  if (diffDays < 1) return 'today';
+  if (diffDays === 1) return 'yesterday';
+  if (diffDays < 7) return `${diffDays} days ago`;
+  if (diffDays < 14) return 'a week ago';
+  if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
+  if (diffDays < 60) return 'a month ago';
+  if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;
+  if (diffDays < 730) return 'a year ago';
+  return `${Math.floor(diffDays / 365)} years ago`;
+}
+
+// Unique ID for this widget instance
+const widgetId = `review-widget-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+{layout === 'featured' && (
+  <section class="py-12 bg-gray-50">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-8">
+        <div class="flex items-center justify-center gap-1 mb-2">
+          <Fragment set:html={getStars(5)} />
+        </div>
+        <p class="text-sm text-gray-600">Rated 5 stars on Google</p>
+      </div>
+
+      <div class="relative">
+        <div id={widgetId} class="overflow-hidden">
+          <div class="flex transition-transform duration-300" id={`${widgetId}-track`}>
+            {reviews.map((review, i) => (
+              <div class="w-full flex-shrink-0 px-4" data-index={i}>
+                <div class="mx-auto max-w-2xl bg-white rounded-xl shadow-sm p-8">
+                  <div class="flex items-center justify-center gap-1 mb-4">
+                    <Fragment set:html={getStars(review.rating)} />
+                  </div>
+                  <blockquote class="text-lg text-gray-700 text-center leading-relaxed">
+                    "{review.text}"
+                  </blockquote>
+                  <div class="mt-6 text-center">
+                    <p class="font-semibold text-gray-900">{review.author}</p>
+                    <p class="text-sm text-gray-500">{getRelativeTime(review.date)}</p>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {reviews.length > 1 && (
+          <div class="flex items-center justify-center gap-4 mt-6">
+            <button
+              type="button"
+              class="p-2 rounded-full bg-white shadow hover:bg-gray-50 transition-colors"
+              aria-label="Previous review"
+              data-prev={widgetId}
+            >
+              <svg class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <div class="flex gap-2" id={`${widgetId}-dots`}>
+              {reviews.map((_, i) => (
+                <button
+                  type="button"
+                  class={`w-2 h-2 rounded-full transition-colors ${i === 0 ? 'bg-primary-600' : 'bg-gray-300'}`}
+                  aria-label={`Go to review ${i + 1}`}
+                  data-dot={i}
+                  data-widget={widgetId}
+                />
+              ))}
+            </div>
+            <button
+              type="button"
+              class="p-2 rounded-full bg-white shadow hover:bg-gray-50 transition-colors"
+              aria-label="Next review"
+              data-next={widgetId}
+            >
+              <svg class="w-5 h-5 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
+    </div>
+  </section>
+)}
+
+{layout === 'standard' && (
+  <section class="py-10 bg-white border-t border-b border-gray-100">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-0.5">
+            <Fragment set:html={getStars(5)} />
+          </div>
+          <span class="text-sm text-gray-600">What our customers say</span>
+        </div>
+        {reviews.length > 1 && (
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="p-1.5 rounded-full border border-gray-200 hover:bg-gray-50 transition-colors"
+              aria-label="Previous review"
+              data-prev={widgetId}
+            >
+              <svg class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="p-1.5 rounded-full border border-gray-200 hover:bg-gray-50 transition-colors"
+              aria-label="Next review"
+              data-next={widgetId}
+            >
+              <svg class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div id={widgetId} class="overflow-hidden">
+        <div class="flex transition-transform duration-300" id={`${widgetId}-track`}>
+          {reviews.map((review, i) => (
+            <div class="w-full flex-shrink-0" data-index={i}>
+              <div class="bg-gray-50 rounded-lg p-6">
+                <div class="flex items-center gap-0.5 mb-3">
+                  <Fragment set:html={getStars(review.rating)} />
+                </div>
+                <p class="text-gray-700 line-clamp-3">"{review.text}"</p>
+                <div class="mt-4 flex items-center justify-between">
+                  <span class="font-medium text-gray-900">{review.author}</span>
+                  <span class="text-sm text-gray-500">{getRelativeTime(review.date)}</span>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {reviews.length > 1 && (
+        <div class="flex justify-center gap-2 mt-4" id={`${widgetId}-dots`}>
+          {reviews.map((_, i) => (
+            <button
+              type="button"
+              class={`w-1.5 h-1.5 rounded-full transition-colors ${i === 0 ? 'bg-primary-600' : 'bg-gray-300'}`}
+              aria-label={`Go to review ${i + 1}`}
+              data-dot={i}
+              data-widget={widgetId}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+{layout === 'compact' && (
+  <section class="py-6 bg-gray-50 border-t border-gray-100">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div id={widgetId} class="overflow-hidden">
+        <div class="flex transition-transform duration-300" id={`${widgetId}-track`}>
+          {reviews.map((review, i) => (
+            <div class="w-full flex-shrink-0" data-index={i}>
+              <div class="flex items-start gap-4">
+                <div class="flex items-center gap-0.5 flex-shrink-0">
+                  <Fragment set:html={getStars(review.rating)} />
+                </div>
+                <div class="flex-1 min-w-0">
+                  <p class="text-gray-700 text-sm line-clamp-2">"{review.text}"</p>
+                  <p class="mt-1 text-xs text-gray-500">
+                    <span class="font-medium text-gray-700">{review.author}</span>
+                    <span class="mx-1">·</span>
+                    <span>{getRelativeTime(review.date)}</span>
+                  </p>
+                </div>
+                {reviews.length > 1 && (
+                  <div class="flex gap-1 flex-shrink-0">
+                    <button
+                      type="button"
+                      class="p-1 rounded hover:bg-gray-200 transition-colors"
+                      aria-label="Previous review"
+                      data-prev={widgetId}
+                    >
+                      <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+                    <button
+                      type="button"
+                      class="p-1 rounded hover:bg-gray-200 transition-colors"
+                      aria-label="Next review"
+                      data-next={widgetId}
+                    >
+                      <svg class="w-4 h-4 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+)}
+
+{layout === '3-row' && (
+  <section class="py-8 bg-gray-50">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-6">
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-0.5">
+            <Fragment set:html={getStars(5)} />
+          </div>
+          <span class="text-sm text-gray-600">What our customers say</span>
+        </div>
+        {reviews.length > 3 && (
+          <div class="flex gap-2">
+            <button
+              type="button"
+              class="p-2 rounded-full border border-gray-200 hover:bg-white hover:shadow-sm transition-all"
+              aria-label="Previous reviews"
+              data-prev={widgetId}
+            >
+              <svg class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              type="button"
+              class="p-2 rounded-full border border-gray-200 hover:bg-white hover:shadow-sm transition-all"
+              aria-label="Next reviews"
+              data-next={widgetId}
+            >
+              <svg class="w-4 h-4 text-gray-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        )}
+      </div>
+
+      <div id={widgetId} class="overflow-hidden">
+        <div class="flex transition-transform duration-300 gap-4" id={`${widgetId}-track`} data-layout="3-row">
+          {reviews.map((review, i) => (
+            <div class="w-full md:w-[calc(33.333%-0.667rem)] flex-shrink-0" data-index={i}>
+              <div class="bg-white rounded-lg p-5 shadow-sm h-full flex flex-col">
+                <div class="flex items-center gap-0.5 mb-3">
+                  <Fragment set:html={getStars(review.rating)} />
+                </div>
+                <p class="text-gray-700 text-sm line-clamp-4 flex-1">"{review.text}"</p>
+                <div class="mt-4 pt-3 border-t border-gray-100">
+                  <p class="font-medium text-gray-900 text-sm">{review.author}</p>
+                  <p class="text-xs text-gray-500">{getRelativeTime(review.date)}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {reviews.length > 3 && (
+        <div class="flex justify-center gap-1.5 mt-6" id={`${widgetId}-dots`}>
+          {reviews.map((_, i) => (
+            <button
+              type="button"
+              class={`w-2 h-2 rounded-full transition-colors ${i === 0 ? 'bg-primary-600' : 'bg-gray-300'}`}
+              aria-label={`Go to review ${i + 1}`}
+              data-dot={i}
+              data-widget={widgetId}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+)}
+
+<script define:vars={{ widgetId, reviewCount: reviews.length, layout }}>
+  // Review widget carousel functionality
+  (function() {
+    if (reviewCount <= 1) return;
+
+    let currentIndex = 0;
+    const track = document.getElementById(`${widgetId}-track`);
+    const dots = document.getElementById(`${widgetId}-dots`);
+    const is3Row = layout === '3-row';
+
+    // For 3-row: max index is reviewCount - 3 (so last 3 cards are visible)
+    // For others: max index is reviewCount - 1
+    const maxIndex = is3Row ? Math.max(0, reviewCount - 3) : reviewCount - 1;
+
+    function goTo(index) {
+      // Handle wrapping for non-3-row layouts
+      if (!is3Row) {
+        if (index < 0) index = reviewCount - 1;
+        if (index >= reviewCount) index = 0;
+      } else {
+        // For 3-row, clamp to valid range (no wrapping)
+        if (index < 0) index = 0;
+        if (index > maxIndex) index = maxIndex;
+      }
+
+      currentIndex = index;
+
+      if (track) {
+        if (is3Row) {
+          // For 3-row: each card is ~33.333% + gap, scroll by card width
+          // Card width is calc(33.333% - 0.667rem), gap is 1rem
+          // Total per card = 33.333%
+          const cardPercent = 33.333;
+          track.style.transform = `translateX(calc(-${currentIndex * cardPercent}% - ${currentIndex}rem / 3 * 4))`;
+        } else {
+          track.style.transform = `translateX(-${currentIndex * 100}%)`;
+        }
+      }
+
+      if (dots) {
+        dots.querySelectorAll('button').forEach((dot, i) => {
+          dot.classList.toggle('bg-primary-600', i === currentIndex);
+          dot.classList.toggle('bg-gray-300', i !== currentIndex);
+        });
+      }
+    }
+
+    // Prev/Next buttons
+    document.querySelectorAll(`[data-prev="${widgetId}"]`).forEach(btn => {
+      btn.addEventListener('click', () => goTo(currentIndex - 1));
+    });
+
+    document.querySelectorAll(`[data-next="${widgetId}"]`).forEach(btn => {
+      btn.addEventListener('click', () => goTo(currentIndex + 1));
+    });
+
+    // Dot buttons
+    document.querySelectorAll(`[data-widget="${widgetId}"]`).forEach(btn => {
+      btn.addEventListener('click', () => {
+        const index = parseInt(btn.getAttribute('data-dot') || '0');
+        goTo(index);
+      });
+    });
+  })();
+</script>

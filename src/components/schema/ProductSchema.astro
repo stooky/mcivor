@@ -1,0 +1,107 @@
+---
+/**
+ * ProductSchema Component
+ * Generates JSON-LD structured data for container products
+ * Helps Google display rich results with pricing in search
+ */
+import { siteConfig, getContainerBySlug } from '../../config/site';
+import fs from 'node:fs';
+import path from 'node:path';
+
+interface Props {
+  slug: string;
+  condition?: 'new' | 'used' | 'both';
+  image?: string;
+}
+
+const { slug, condition = 'both', image } = Astro.props;
+
+const product = getContainerBySlug(slug);
+const currency = siteConfig.products.currency;
+
+// Load reviews for aggregate rating
+let reviewsData = { totalCount: 0, averageRating: 0 };
+try {
+  const reviewsPath = path.join(process.cwd(), 'data', 'reviews.json');
+  const reviewsContent = fs.readFileSync(reviewsPath, 'utf-8');
+  reviewsData = JSON.parse(reviewsContent);
+} catch {
+  // Reviews file not found, use defaults
+}
+
+if (!product) {
+  console.warn(`ProductSchema: No product found for slug "${slug}"`);
+}
+
+// Build offers array based on condition and availability
+const offers: any[] = [];
+
+if (product) {
+  if ((condition === 'new' || condition === 'both') && product.new) {
+    offers.push({
+      "@type": "Offer",
+      "name": `${product.name} - New`,
+      "priceCurrency": currency,
+      "price": product.new.min,
+      "priceValidUntil": new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/NewCondition",
+      "seller": {
+        "@type": "Organization",
+        "name": siteConfig.name
+      }
+    });
+  }
+
+  if ((condition === 'used' || condition === 'both') && product.used) {
+    offers.push({
+      "@type": "Offer",
+      "name": `${product.name} - Used`,
+      "priceCurrency": currency,
+      "price": product.used.min,
+      "priceValidUntil": new Date(Date.now() + 90 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+      "availability": "https://schema.org/InStock",
+      "itemCondition": "https://schema.org/UsedCondition",
+      "seller": {
+        "@type": "Organization",
+        "name": siteConfig.name
+      }
+    });
+  }
+}
+
+// Build aggregate rating if we have reviews
+const aggregateRating = reviewsData.totalCount > 0 ? {
+  "@type": "AggregateRating",
+  "ratingValue": reviewsData.averageRating.toFixed(1),
+  "bestRating": "5",
+  "worstRating": "1",
+  "ratingCount": reviewsData.totalCount
+} : null;
+
+const schema = product ? {
+  "@context": "https://schema.org",
+  "@type": "Product",
+  "name": product.name,
+  "description": product.description,
+  "image": image ? new URL(image, siteConfig.url).href : `${siteConfig.url}/images/containers/${slug}.jpg`,
+  "brand": {
+    "@type": "Brand",
+    "name": siteConfig.name
+  },
+  "category": "Storage Container",
+  ...(aggregateRating && { "aggregateRating": aggregateRating }),
+  "offers": offers.length === 1 ? offers[0] : {
+    "@type": "AggregateOffer",
+    "lowPrice": Math.min(...offers.map(o => o.price)),
+    "highPrice": Math.max(...offers.map(o => o.price)),
+    "priceCurrency": currency,
+    "offerCount": offers.length,
+    "offers": offers
+  }
+} : null;
+---
+
+{schema && (
+  <script type="application/ld+json" set:html={JSON.stringify(schema)} />
+)}

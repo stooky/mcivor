@@ -1,0 +1,677 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import Section from '../components/Section.astro';
+import CTA from '../components/CTA.astro';
+import { siteConfig } from '../config/site';
+import heroImage from '../assets/images/sales-hero.webp';
+
+// WhatsApp link with pre-filled message
+const whatsappLink = `${siteConfig.social.whatsapp}?text=${encodeURIComponent("Hi! I'm interested in shipping containers.")}`;
+const phoneLink = `tel:${siteConfig.contact.phone.replace(/\D/g, '')}`;
+
+// Container sizes with details
+const containerSizes = [
+  {
+    size: "20' Standard",
+    nickname: "Twenty Footer",
+    dimensions: {
+      external: "20' L × 8' W × 8'6\" H",
+      internal: "19'4\" L × 7'8\" W × 7'10\" H",
+    },
+    capacity: "1,172 cubic feet",
+    maxWeight: "47,900 lbs",
+    ideal: "Residential storage, small business inventory, tools & equipment",
+    image: "/images/containers/20-standard.png",
+    realImage: "/images/containers/20ft-real.jpg",
+    popular: false,
+  },
+  {
+    size: "40' Standard",
+    nickname: "Forty Footer",
+    dimensions: {
+      external: "40' L × 8' W × 8'6\" H",
+      internal: "39'5\" L × 7'8\" W × 7'10\" H",
+    },
+    capacity: "2,390 cubic feet",
+    maxWeight: "58,820 lbs",
+    ideal: "Business inventory, construction sites, large equipment",
+    image: "/images/containers/40-standard.png",
+    realImage: "/images/containers/40ft-real.jpg",
+    popular: true,
+  },
+  {
+    size: "40' High Cube",
+    nickname: "Forty Foot HC",
+    dimensions: {
+      external: "40' L × 8' W × 9'6\" H",
+      internal: "39'5\" L × 7'8\" W × 8'10\" H",
+    },
+    capacity: "2,694 cubic feet",
+    maxWeight: "58,598 lbs",
+    ideal: "Oversized items, workshops, studios, container homes",
+    image: "/images/containers/40-high-cube.png",
+    realImage: "/images/containers/40ft-hc-real.jpg",
+    popular: false,
+  },
+];
+
+// Common uses for shipping containers
+const containerUses = [
+  {
+    title: "Farm & Agricultural Storage",
+    description: "Protect equipment, feed, seed, and supplies from Saskatchewan's harsh weather. Wind and watertight containers keep your valuable assets safe year-round.",
+    icon: `<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 3v2.25m6.364.386l-1.591 1.591M21 12h-2.25m-.386 6.364l-1.591-1.591M12 18.75V21m-4.773-4.227l-1.591 1.591M5.25 12H3m4.227-4.773L5.636 5.636M15.75 12a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0z" /></svg>`,
+  },
+  {
+    title: "Construction Sites",
+    description: "Secure tool storage and on-site offices. Keep expensive equipment safe from theft and weather while maintaining easy access during work hours.",
+    icon: `<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" /></svg>`,
+  },
+  {
+    title: "Home Renovation Storage",
+    description: "Temporary storage during renovations. Keep furniture and belongings safe and dry on your property while work is being done inside your home.",
+    icon: `<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>`,
+  },
+  {
+    title: "Business Inventory",
+    description: "Expand your storage capacity without expensive building construction. Perfect for retail overflow, seasonal inventory, and e-commerce fulfillment.",
+    icon: `<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>`,
+  },
+  {
+    title: "Workshops & Studios",
+    description: "Convert a container into your personal workspace. Insulate it, add lighting, and create the perfect workshop, art studio, or home office.",
+    icon: `<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9.53 16.122a3 3 0 00-5.78 1.128 2.25 2.25 0 01-2.4 2.245 4.5 4.5 0 008.4-2.245c0-.399-.078-.78-.22-1.128zm0 0a15.998 15.998 0 003.388-1.62m-5.043-.025a15.994 15.994 0 011.622-3.395m3.42 3.42a15.995 15.995 0 004.764-4.648l3.876-5.814a1.151 1.151 0 00-1.597-1.597L14.146 6.32a15.996 15.996 0 00-4.649 4.763m3.42 3.42a6.776 6.776 0 00-3.42-3.42" /></svg>`,
+  },
+  {
+    title: "Moving & Relocation",
+    description: "Pack at your own pace. Load your container, and we'll move it to your new location when you're ready. No rush, no pressure.",
+    icon: `<svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 18.75a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h6m-9 0H3.375a1.125 1.125 0 01-1.125-1.125V14.25m17.25 4.5a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m3 0h1.125c.621 0 1.129-.504 1.09-1.124a17.902 17.902 0 00-3.213-9.193 2.056 2.056 0 00-1.58-.86H14.25M16.5 18.75h-2.25m0-11.177v-.958c0-.568-.422-1.048-.987-1.106a48.554 48.554 0 00-10.026 0 1.106 1.106 0 00-.987 1.106v7.635m12-6.677v6.677m0 4.5v-4.5m0 0h-12" /></svg>`,
+  },
+];
+
+// Why choose shipping containers
+const whyContainers = [
+  {
+    title: "Built to Last",
+    description: "Shipping containers are engineered to withstand extreme ocean conditions. Corten steel construction resists rust and corrosion, lasting 25+ years with minimal maintenance.",
+    stat: "25+",
+    statLabel: "Year Lifespan",
+  },
+  {
+    title: "Weatherproof",
+    description: "Wind and watertight seals protect your belongings from rain, snow, and Saskatchewan's extreme temperature swings. Your items stay dry and safe year-round.",
+    stat: "100%",
+    statLabel: "Weatherproof",
+  },
+  {
+    title: "Secure Storage",
+    description: "Heavy-duty steel construction with lockable doors. Optional lock boxes and high-security locks available. Nearly impossible to break into.",
+    stat: "14ga",
+    statLabel: "Steel Thickness",
+  },
+  {
+    title: "Portable & Versatile",
+    description: "Move your container wherever you need it. Use it as-is for storage or modify it into workshops, offices, tiny homes, and more.",
+    stat: "∞",
+    statLabel: "Possibilities",
+  },
+];
+
+// FAQs for SEO
+const faqs = [
+  {
+    question: "What is a shipping container?",
+    answer: "A shipping container (also called a sea can, conex box, or intermodal container) is a standardized steel box designed to transport goods across oceans on cargo ships. These containers are built from heavy-gauge Corten steel, making them incredibly durable, weatherproof, and secure. After their shipping life, they make excellent storage solutions, workshops, and even buildings.",
+  },
+  {
+    question: "What sizes do shipping containers come in?",
+    answer: "The most common shipping container sizes are 20-foot and 40-foot lengths. Standard containers are 8'6\" tall, while High Cube (HC) containers are 9'6\" tall. We also carry 9-foot mini containers perfect for residential use. All containers are 8 feet wide to fit on standard transportation.",
+  },
+  {
+    question: "How long do shipping containers last?",
+    answer: "A well-maintained shipping container can last 25 years or more. They're built from Corten steel (weathering steel) that forms a protective rust layer to prevent further corrosion. With proper care—keeping the roof clear of debris and touching up any scratches—your container will provide decades of reliable service.",
+  },
+  {
+    question: "What's the difference between new and used shipping containers?",
+    answer: "New containers (called 'one-trip' containers) have only made one ocean voyage from Asia. They're in like-new condition with minimal cosmetic wear. Used containers have been in active shipping service and show more wear but are inspected to be wind and watertight. Used containers offer better value for pure storage needs.",
+  },
+  {
+    question: "Can shipping containers handle Saskatchewan winters?",
+    answer: "Absolutely. Shipping containers are designed for extreme conditions—they survive arctic shipping routes and temperature swings from -40°C to +50°C. The steel construction handles snow loads easily, and proper ventilation prevents condensation. They're perfect for our prairie climate.",
+  },
+  {
+    question: "Do I need a permit for a shipping container?",
+    answer: "Permit requirements vary by municipality. In rural Saskatchewan, containers for agricultural use typically don't require permits. In cities like Saskatoon, you may need a development permit for permanent placement. We recommend checking with your local planning department. Temporary placement during construction usually doesn't require permits.",
+  },
+  {
+    question: "How much does a shipping container cost?",
+    answer: "Prices vary based on size, condition (new vs. used), and current market conditions. Contact us for current pricing—we offer both purchase and rental options to fit your budget. Delivery is available throughout Saskatchewan.",
+  },
+  {
+    question: "Can you deliver shipping containers to my location?",
+    answer: "Yes! We deliver throughout Saskatchewan using tilt-bed trucks or crane trucks depending on your site conditions. We can place containers on level ground, gravel pads, or concrete. We'll discuss site requirements and access when you contact us for a quote.",
+  },
+];
+---
+
+<Layout
+  title="Shipping Containers Saskatoon & Saskatchewan"
+  description="Shipping containers for sale and rent in Saskatoon and across Saskatchewan. New and used sea cans available in 20ft, 40ft, and 40ft High Cube sizes. Delivery available province-wide."
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-20 sm:py-28">
+    <div class="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-10"></div>
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+        <div>
+          <span class="inline-flex items-center rounded-full bg-primary-500/10 px-4 py-1.5 text-sm font-medium text-primary-300 ring-1 ring-inset ring-primary-500/20">
+            Saskatchewan's Shipping Container Experts
+          </span>
+          <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+            Shipping Containers
+            <span class="text-primary-400">Saskatoon & Area</span>
+          </h1>
+          <p class="mt-6 text-lg leading-8 text-gray-300">
+            Looking for shipping containers in Saskatchewan? Whether you call them sea cans, storage containers, or conex boxes—we've got you covered. New and used containers available for sale or rent with delivery across the province.
+          </p>
+
+          <!-- Quick Stats -->
+          <div class="mt-8 grid grid-cols-3 gap-4">
+            <div class="rounded-lg bg-white/10 p-4 text-center backdrop-blur">
+              <p class="text-2xl font-bold text-white">20'+</p>
+              <p class="text-sm text-gray-300">Sizes Available</p>
+            </div>
+            <div class="rounded-lg bg-white/10 p-4 text-center backdrop-blur">
+              <p class="text-2xl font-bold text-white">New</p>
+              <p class="text-sm text-gray-300">& Used Stock</p>
+            </div>
+            <div class="rounded-lg bg-white/10 p-4 text-center backdrop-blur">
+              <p class="text-2xl font-bold text-white">SK</p>
+              <p class="text-sm text-gray-300">Wide Delivery</p>
+            </div>
+          </div>
+
+          <!-- Primary CTAs -->
+          <div class="mt-10 flex flex-col gap-4 sm:flex-row">
+            <a
+              href={whatsappLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="inline-flex items-center justify-center gap-2 rounded-lg bg-green-600 px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-green-500 hover:shadow-xl"
+            >
+              <svg class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+              </svg>
+              WhatsApp Us Now
+            </a>
+            <a
+              href={phoneLink}
+              class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-100 hover:shadow-xl"
+            >
+              <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+              </svg>
+              Call {siteConfig.contact.phone}
+            </a>
+          </div>
+        </div>
+
+        <!-- Hero Image -->
+        <div class="relative">
+          <div class="overflow-hidden rounded-2xl shadow-2xl">
+            <Image
+              src={heroImage}
+              alt="Shipping containers at C-Can Sam facility in Saskatchewan"
+              class="w-full h-auto object-cover"
+              widths={[600, 900, 1200, 1400]}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              loading="eager"
+            />
+          </div>
+          <!-- Floating badge -->
+          <div class="absolute -bottom-4 -left-4 rounded-xl bg-primary-600 px-4 py-3 shadow-lg">
+            <p class="text-sm font-semibold text-white">Serving</p>
+            <p class="text-lg font-bold text-white">All of Saskatchewan</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Banner -->
+  <div class="bg-primary-600 py-4">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-center font-bold text-white">
+        <span>Buy or Rent</span>
+        <span class="hidden sm:inline">•</span>
+        <span>New & Used Stock</span>
+        <span class="hidden sm:inline">•</span>
+        <span>Province-Wide Delivery</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- What is a Shipping Container -->
+  <Section
+    title="What is a Shipping Container?"
+    subtitle="The ultimate storage solution that's built to last."
+  >
+    <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
+      <div class="prose prose-lg max-w-none">
+        <p>
+          <strong>Shipping containers</strong> (also known as <em>sea cans</em>, <em>storage containers</em>, <em>conex boxes</em>, or <em>intermodal containers</em>) are standardized steel boxes originally designed to transport cargo across the world's oceans.
+        </p>
+        <p>
+          Built from heavy-gauge <strong>Corten steel</strong> (weathering steel), these containers are engineered to withstand the harshest conditions—salt spray, extreme temperatures, and constant movement. This incredible durability makes them perfect for storage, workshops, and even building construction long after their shipping days are over.
+        </p>
+        <p>
+          In Saskatchewan, shipping containers have become the go-to solution for farmers, contractors, businesses, and homeowners who need <strong>secure, weatherproof storage</strong> that can handle our prairie climate.
+        </p>
+
+        <div class="not-prose mt-8">
+          <a
+            href="/contact"
+            class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-primary-500"
+          >
+            Get a Free Quote
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <div class="overflow-hidden rounded-xl shadow-lg">
+          <img
+            src="/images/containers/container-side.jpg"
+            alt="Side view of a shipping container showing Corten steel construction"
+            class="h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="overflow-hidden rounded-xl shadow-lg">
+          <img
+            src="/images/containers/container-interior.jpg"
+            alt="Interior view of a shipping container showing clean, dry space"
+            class="h-full w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+        <div class="col-span-2 overflow-hidden rounded-xl shadow-lg">
+          <img
+            src="/images/containers/40ft-real.jpg"
+            alt="40 foot shipping container delivered to customer site in Saskatchewan"
+            class="h-64 w-full object-cover"
+            loading="lazy"
+            decoding="async"
+          />
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Why Choose Shipping Containers -->
+  <Section
+    title="Why Choose a Shipping Container?"
+    subtitle="Built for the toughest conditions on earth."
+    background="gray"
+  >
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {whyContainers.map((item) => (
+        <div class="rounded-2xl bg-white p-6 text-center shadow-sm">
+          <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-primary-100">
+            <span class="text-2xl font-bold text-primary-600">{item.stat}</span>
+          </div>
+          <p class="mt-1 text-sm text-gray-500">{item.statLabel}</p>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900">{item.title}</h3>
+          <p class="mt-2 text-gray-600">{item.description}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Container Sizes Section -->
+  <Section
+    title="Shipping Container Sizes"
+    subtitle="Find the perfect size for your needs. We stock 20ft, 40ft, and 40ft High Cube containers."
+  >
+    <div class="space-y-16">
+      {containerSizes.map((container, index) => (
+        <div class={`grid gap-8 lg:grid-cols-2 lg:items-center ${index % 2 === 1 ? 'lg:grid-flow-dense' : ''}`}>
+          <div class={index % 2 === 1 ? 'lg:col-start-2' : ''}>
+            <div class="relative">
+              {container.popular && (
+                <span class="absolute -top-3 left-4 z-10 rounded-full bg-primary-500 px-4 py-1 text-sm font-semibold text-white">
+                  Most Popular
+                </span>
+              )}
+              <div class="overflow-hidden rounded-2xl bg-gray-100 p-8">
+                <img
+                  src={container.image}
+                  alt={`${container.size} shipping container diagram`}
+                  class="h-auto w-full max-h-64 object-contain"
+                  loading="lazy"
+                  decoding="async"
+                />
+              </div>
+            </div>
+            <div class="mt-4 overflow-hidden rounded-xl">
+              <img
+                src={container.realImage}
+                alt={`${container.size} shipping container - real photo`}
+                class="h-48 w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+
+          <div class={index % 2 === 1 ? 'lg:col-start-1 lg:row-start-1' : ''}>
+            <h3 class="text-3xl font-bold text-gray-900">{container.size} Shipping Container</h3>
+            <p class="mt-1 text-lg text-gray-500">"{container.nickname}"</p>
+
+            <dl class="mt-6 space-y-4">
+              <div class="rounded-lg bg-gray-50 p-4">
+                <dt class="text-sm font-medium text-gray-500">External Dimensions</dt>
+                <dd class="mt-1 text-lg font-semibold text-gray-900">{container.dimensions.external}</dd>
+              </div>
+              <div class="rounded-lg bg-gray-50 p-4">
+                <dt class="text-sm font-medium text-gray-500">Internal Dimensions</dt>
+                <dd class="mt-1 text-lg font-semibold text-gray-900">{container.dimensions.internal}</dd>
+              </div>
+              <div class="grid grid-cols-2 gap-4">
+                <div class="rounded-lg bg-gray-50 p-4">
+                  <dt class="text-sm font-medium text-gray-500">Storage Capacity</dt>
+                  <dd class="mt-1 text-lg font-semibold text-gray-900">{container.capacity}</dd>
+                </div>
+                <div class="rounded-lg bg-gray-50 p-4">
+                  <dt class="text-sm font-medium text-gray-500">Max Payload</dt>
+                  <dd class="mt-1 text-lg font-semibold text-gray-900">{container.maxWeight}</dd>
+                </div>
+              </div>
+            </dl>
+
+            <p class="mt-6 text-gray-600"><strong>Ideal for:</strong> {container.ideal}</p>
+
+            <div class="mt-6 flex gap-3">
+              <a
+                href={whatsappLink}
+                class="inline-flex items-center gap-2 rounded-lg bg-green-600 px-4 py-2.5 font-semibold text-white transition-colors hover:bg-green-500"
+              >
+                <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+                Get Pricing
+              </a>
+              <a
+                href={phoneLink}
+                class="inline-flex items-center gap-2 rounded-lg bg-primary-600 px-4 py-2.5 font-semibold text-white transition-colors hover:bg-primary-500"
+              >
+                <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                </svg>
+                Call Now
+              </a>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Mid-Page CTA -->
+  <section class="bg-gradient-to-r from-primary-600 to-primary-700 py-16">
+    <div class="mx-auto max-w-4xl px-4 text-center sm:px-6 lg:px-8">
+      <h2 class="text-3xl font-bold text-white sm:text-4xl">Not Sure Which Size You Need?</h2>
+      <p class="mt-4 text-lg text-primary-100">
+        Our team can help you figure out the perfect container for your project. We'll ask about what you're storing and recommend the best option.
+      </p>
+      <div class="mt-8 flex flex-col justify-center gap-4 sm:flex-row">
+        <a
+          href={whatsappLink}
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-3 font-semibold text-primary-600 shadow-lg transition-all hover:bg-gray-100"
+        >
+          <svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+          Chat on WhatsApp
+        </a>
+        <a
+          href="/contact"
+          class="inline-flex items-center justify-center gap-2 rounded-lg border-2 border-white px-6 py-3 font-semibold text-white transition-all hover:bg-white hover:text-primary-600"
+        >
+          Request a Quote
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Common Uses -->
+  <Section
+    title="What Can You Use a Shipping Container For?"
+    subtitle="From storage to creative builds—the possibilities are endless."
+    background="gray"
+  >
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {containerUses.map((use) => (
+        <div class="rounded-xl bg-white p-6 shadow-sm transition-shadow hover:shadow-md">
+          <div class="flex h-14 w-14 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+            <Fragment set:html={use.icon} />
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900">{use.title}</h3>
+          <p class="mt-2 text-gray-600">{use.description}</p>
+        </div>
+      ))}
+    </div>
+
+    <!-- Additional uses gallery placeholder -->
+    <div class="mt-12 grid grid-cols-2 gap-4 md:grid-cols-4">
+      <div class="aspect-square overflow-hidden rounded-xl bg-gray-200">
+        <img
+          src="/images/blog/container-homes.jpg"
+          alt="Container home conversion project"
+          class="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="aspect-square overflow-hidden rounded-xl bg-gray-200">
+        <img
+          src="/images/blog/eco-friendly-seacans.jpg"
+          alt="Eco-friendly container uses"
+          class="h-full w-full object-cover"
+          loading="lazy"
+          decoding="async"
+        />
+      </div>
+      <div class="aspect-square overflow-hidden rounded-xl bg-gray-200 flex items-center justify-center text-gray-400">
+        <!-- Placeholder: Workshop/studio image -->
+        <div class="text-center p-4">
+          <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+          </svg>
+          <p class="mt-2 text-sm">Workshop Photo</p>
+        </div>
+      </div>
+      <div class="aspect-square overflow-hidden rounded-xl bg-gray-200 flex items-center justify-center text-gray-400">
+        <!-- Placeholder: Farm storage image -->
+        <div class="text-center p-4">
+          <svg class="mx-auto h-12 w-12" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
+          </svg>
+          <p class="mt-2 text-sm">Farm Storage Photo</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Buy or Rent Section -->
+  <Section
+    title="Buy or Rent a Shipping Container?"
+    subtitle="We offer flexible options to match your needs and budget."
+  >
+    <div class="grid gap-8 lg:grid-cols-2">
+      <!-- Buy Option -->
+      <div class="rounded-2xl border-2 border-green-200 bg-green-50 p-8">
+        <div class="flex items-center gap-3">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-green-600 text-white">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 18.75a60.07 60.07 0 0115.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 013 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 00-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 01-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 003 15h-.75M15 10.5a3 3 0 11-6 0 3 3 0 016 0zm3 0h.008v.008H18V10.5zm-12 0h.008v.008H6V10.5z" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900">Buy a Container</h3>
+        </div>
+        <p class="mt-4 text-gray-600">Own your container outright. A one-time investment for permanent storage or conversion projects.</p>
+        <ul class="mt-6 space-y-3">
+          <li class="flex items-start gap-2">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <span class="text-gray-700">No monthly payments after purchase</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <span class="text-gray-700">Modify, paint, and customize however you want</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <span class="text-gray-700">Holds value well—resell if needs change</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-green-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <span class="text-gray-700">Best for: Long-term storage, conversions, permanent placement</span>
+          </li>
+        </ul>
+        <a
+          href="/storage-containers-for-sale"
+          class="mt-6 inline-flex items-center gap-2 rounded-lg bg-green-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-green-500"
+        >
+          View Containers for Sale
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      </div>
+
+      <!-- Rent Option -->
+      <div class="rounded-2xl border-2 border-blue-200 bg-blue-50 p-8">
+        <div class="flex items-center gap-3">
+          <div class="flex h-12 w-12 items-center justify-center rounded-full bg-blue-600 text-white">
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h3 class="text-2xl font-bold text-gray-900">Rent a Container</h3>
+        </div>
+        <p class="mt-4 text-gray-600">Flexible monthly rentals. Perfect for temporary projects without the upfront investment.</p>
+        <ul class="mt-6 space-y-3">
+          <li class="flex items-start gap-2">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <span class="text-gray-700">Low upfront costs—pay monthly</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <span class="text-gray-700">Flexible terms—extend or return as needed</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <span class="text-gray-700">We handle pickup when you're done</span>
+          </li>
+          <li class="flex items-start gap-2">
+            <svg class="mt-0.5 h-5 w-5 flex-shrink-0 text-blue-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" /></svg>
+            <span class="text-gray-700">Best for: Renovations, construction, seasonal storage, moving</span>
+          </li>
+        </ul>
+        <a
+          href="/storage-container-rentals"
+          class="mt-6 inline-flex items-center gap-2 rounded-lg bg-blue-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-blue-500"
+        >
+          View Rental Options
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </Section>
+
+  <!-- Service Area -->
+  <Section
+    title="Shipping Container Delivery in Saskatchewan"
+    subtitle="We deliver throughout the province."
+    background="gray"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="rounded-2xl bg-white p-8 shadow-sm">
+        <div class="flex items-center gap-4">
+          <div class="flex h-14 w-14 items-center justify-center rounded-full bg-primary-100 text-primary-600">
+            <svg class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" />
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-gray-900">Based in Martensville</p>
+            <p class="text-gray-600">Serving Saskatoon, Warman, and all of Saskatchewan</p>
+          </div>
+        </div>
+
+        <div class="mt-8 grid gap-4 sm:grid-cols-2">
+          <div class="rounded-lg bg-gray-50 p-4">
+            <h4 class="font-semibold text-gray-900">Local Delivery</h4>
+            <p class="mt-1 text-sm text-gray-600">Saskatoon, Martensville, Warman, and surrounding areas. Quick turnaround and competitive rates.</p>
+          </div>
+          <div class="rounded-lg bg-gray-50 p-4">
+            <h4 class="font-semibold text-gray-900">Province-Wide</h4>
+            <p class="mt-1 text-sm text-gray-600">Prince Albert, Regina, Moose Jaw, Swift Current, and everywhere in between. We'll get a container to you.</p>
+          </div>
+        </div>
+
+        <p class="mt-6 text-center text-gray-600">
+          <strong>Delivery available using tilt-bed or crane trucks</strong> depending on your site requirements. We'll discuss access and placement when you contact us.
+        </p>
+
+        <div class="mt-6 flex flex-col justify-center gap-4 sm:flex-row">
+          <a
+            href={phoneLink}
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-primary-500"
+          >
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+            </svg>
+            Call for Delivery Quote
+          </a>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <!-- FAQ Section -->
+  <Section title="Shipping Container FAQs">
+    <div class="mx-auto max-w-3xl divide-y divide-gray-200">
+      {faqs.map((faq) => (
+        <details class="group py-6">
+          <summary class="flex cursor-pointer items-center justify-between text-lg font-medium text-gray-900">
+            {faq.question}
+            <svg class="h-5 w-5 text-gray-500 transition-transform group-open:rotate-180" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+            </svg>
+          </summary>
+          <p class="mt-4 text-gray-600">{faq.answer}</p>
+        </details>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Final CTA -->
+  <CTA
+    title="Ready to Get Your Shipping Container?"
+    description="Whether you're buying or renting, we're here to help you find the perfect container for your needs. Get in touch today for current pricing and availability."
+    primaryButton={{ text: "Call Now", href: phoneLink }}
+    secondaryButton={{ text: "Request a Quote", href: "/contact" }}
+  />
+</Layout>

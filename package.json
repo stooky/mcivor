@@ -1,0 +1,27 @@
+{
+  "name": "astro-smb-full",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Full-featured Astro static site template for small businesses with products, reviews, and multi-tab forms",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "node scripts/deploy.js staging",
+    "deploy:staging": "node scripts/deploy.js staging",
+    "deploy:prod": "node scripts/deploy.js production",
+    "tag-reviews": "node scripts/tag-reviews.js"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.2.1",
+    "astro": "^5.1.0",
+    "yaml": "^2.8.2"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.15",
+    "@tailwindcss/vite": "^4.0.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.2"
+  }
+}

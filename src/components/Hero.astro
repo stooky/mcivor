@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  primaryCta?: {
+    text: string;
+    href: string;
+    variant?: 'primary' | 'whatsapp' | 'blue';
+  };
+  secondaryCta?: {
+    text: string;
+    href: string;
+    variant?: 'default' | 'blue' | 'primary';
+  };
+  centered?: boolean;
+  size?: 'sm' | 'md' | 'lg';
+  backgroundImage?: ImageMetadata;
+}
+
+const {
+  title,
+  subtitle,
+  primaryCta,
+  secondaryCta,
+  centered = true,
+  size = 'lg',
+  backgroundImage,
+} = Astro.props;
+
+const sizeClasses = {
+  sm: 'py-16 sm:py-20',
+  md: 'py-20 sm:py-28',
+  lg: 'py-24 sm:py-32',
+};
+
+const titleSizes = {
+  sm: 'text-3xl sm:text-4xl',
+  md: 'text-4xl sm:text-5xl',
+  lg: 'text-4xl sm:text-5xl lg:text-6xl',
+};
+
+const hasBackground = !!backgroundImage;
+---
+
+<section class={`relative overflow-hidden ${sizeClasses[size]} ${hasBackground ? '' : 'bg-white'}`}>
+  {/* Background Image with Overlay */}
+  {backgroundImage && (
+    <>
+      <div class="absolute inset-0">
+        <Image
+          src={backgroundImage}
+          alt=""
+          class="h-full w-full object-cover"
+          widths={[640, 1024, 1536, 2048]}
+          sizes="100vw"
+          quality={45}
+          loading="eager"
+          fetchpriority="high"
+          format="webp"
+        />
+      </div>
+      {/* Dark overlay with gradient for better text readability */}
+      <div class="absolute inset-0 bg-gradient-to-r from-gray-900/85 via-gray-900/70 to-gray-900/50"></div>
+    </>
+  )}
+
+  <div class={`relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 ${centered ? 'text-center' : ''}`}>
+    <div class={centered ? 'mx-auto max-w-3xl' : 'max-w-2xl'}>
+      <h1 class={`font-bold tracking-tight ${hasBackground ? 'text-white drop-shadow-lg' : 'text-gray-900'} ${titleSizes[size]}`}>
+        {title}
+      </h1>
+      {subtitle && (
+        <p class={`mt-6 text-lg leading-8 sm:text-xl ${hasBackground ? 'text-gray-100' : 'text-gray-600'}`}>
+          {subtitle}
+        </p>
+      )}
+      {(primaryCta || secondaryCta) && (
+        <div class={`mt-10 flex flex-wrap gap-4 ${centered ? 'justify-center' : ''}`}>
+          {primaryCta && (
+            <a
+              href={primaryCta.href}
+              class:list={[
+                'inline-flex items-center justify-center rounded-lg px-6 py-3 text-base font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
+                primaryCta.variant === 'whatsapp' && 'bg-[#25D366] text-white hover:bg-[#20BD5A] focus:ring-[#25D366]',
+                primaryCta.variant === 'blue' && 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+                (!primaryCta.variant || primaryCta.variant === 'primary') && (hasBackground
+                  ? 'bg-primary-500 text-white hover:bg-primary-400 focus:ring-primary-400'
+                  : 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500'),
+              ]}
+            >
+              {primaryCta.text}
+            </a>
+          )}
+          {secondaryCta && (
+            <a
+              href={secondaryCta.href}
+              class:list={[
+                'inline-flex items-center justify-center rounded-lg px-6 py-3 text-base font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2',
+                secondaryCta.variant === 'blue' && 'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+                secondaryCta.variant === 'primary' && 'bg-primary-600 text-white hover:bg-primary-700 focus:ring-primary-500',
+                (!secondaryCta.variant || secondaryCta.variant === 'default') && (hasBackground
+                  ? 'bg-white/10 text-white border border-white/30 hover:bg-white/20 focus:ring-white backdrop-blur-sm'
+                  : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50 focus:ring-primary-500'),
+              ]}
+            >
+              {secondaryCta.text}
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+    <slot />
+  </div>
+</section>

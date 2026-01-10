@@ -1,0 +1,10 @@
+# robots.txt for ccansam.com
+User-agent: *
+Allow: /
+
+# Sitemaps (both old WordPress URL and new Astro URL)
+Sitemap: https://ccansam.com/sitemap-index.xml
+Sitemap: https://ccansam.com/sitemap-0.xml
+
+# Block admin and API endpoints
+Disallow: /api/
