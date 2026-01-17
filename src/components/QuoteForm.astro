@@ -1,0 +1,546 @@
+---
+interface Props {
+  serviceType: 'residential-duct' | 'commercial-duct' | 'dryer-vent' | 'insulation';
+  title?: string;
+}
+
+const { serviceType, title = 'Get a Quote' } = Astro.props;
+
+// Field configuration per service type
+const serviceConfig = {
+  'residential-duct': {
+    label: 'Residential Duct Cleaning',
+    fields: ['name', 'email', 'phone', 'address', 'vents', 'coldAirReturns', 'hasAC', 'situation', 'urgency'],
+    note: 'The quote you receive will be accurate based on the information that you have provided.',
+  },
+  'commercial-duct': {
+    label: 'Commercial Duct Cleaning',
+    fields: ['name', 'email', 'phone', 'businessName', 'address', 'squareFootage', 'buildingType', 'situation', 'urgency', 'preferredSchedule'],
+    note: 'The quote you receive will be accurate based on the information that you have provided.',
+  },
+  'dryer-vent': {
+    label: 'Dryer Vent Cleaning',
+    fields: ['name', 'email', 'phone', 'address', 'dryerLocation', 'ventLength', 'situation', 'urgency'],
+    note: 'Most residential dryer vent cleanings are straightforward. Let us know if you have any special circumstances.',
+  },
+  'insulation': {
+    label: 'Insulation Removal',
+    fields: ['name', 'email', 'phone', 'address', 'insulationType', 'atticSize', 'situation', 'urgency'],
+    note: 'Please provide as much detail as possible about your insulation removal needs.',
+  },
+};
+
+const config = serviceConfig[serviceType];
+const fields = config.fields;
+
+// Determine API endpoint based on environment
+const isDev = import.meta.env.DEV;
+const apiEndpoint = isDev ? 'http://localhost:3001/contact' : '/api/contact.php';
+---
+
+<div class="bg-white rounded-xl shadow-lg p-6 sm:p-8">
+  <h3 class="text-2xl font-bold text-gray-900 mb-2">{title}</h3>
+  {config.note && (
+    <p class="text-sm text-gray-600 mb-6 p-3 bg-primary-50 rounded-lg border border-primary-100">
+      <strong>Note:</strong> {config.note}
+    </p>
+  )}
+
+  <form id="quote-form" class="space-y-5" data-endpoint={apiEndpoint}>
+    <!-- Hidden service type field -->
+    <input type="hidden" name="serviceType" value={serviceType} />
+    <input type="hidden" name="serviceLabel" value={config.label} />
+
+    <!-- Name Fields -->
+    {fields.includes('name') && (
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        <div>
+          <label for="firstName" class="block text-sm font-medium text-gray-700">
+            First Name <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="firstName"
+            id="firstName"
+            required
+            class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+          />
+        </div>
+        <div>
+          <label for="lastName" class="block text-sm font-medium text-gray-700">
+            Last Name <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="lastName"
+            id="lastName"
+            required
+            class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+          />
+        </div>
+      </div>
+    )}
+
+    <!-- Email -->
+    {fields.includes('email') && (
+      <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">
+          Your Best Email <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        />
+      </div>
+    )}
+
+    <!-- Phone -->
+    {fields.includes('phone') && (
+      <div>
+        <label for="phone" class="block text-sm font-medium text-gray-700">
+          Your Best Phone <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="tel"
+          name="phone"
+          id="phone"
+          required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        />
+      </div>
+    )}
+
+    <!-- Business Name (Commercial only) -->
+    {fields.includes('businessName') && (
+      <div>
+        <label for="businessName" class="block text-sm font-medium text-gray-700">
+          Business Name <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          name="businessName"
+          id="businessName"
+          required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        />
+      </div>
+    )}
+
+    <!-- Address -->
+    {fields.includes('address') && (
+      <div class="space-y-4">
+        <div>
+          <label for="streetAddress" class="block text-sm font-medium text-gray-700">
+            Street Address <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="streetAddress"
+            id="streetAddress"
+            required
+            class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+          />
+        </div>
+        <div>
+          <label for="addressLine2" class="block text-sm font-medium text-gray-700">
+            Address Line 2 <span class="text-gray-400">(optional)</span>
+          </label>
+          <input
+            type="text"
+            name="addressLine2"
+            id="addressLine2"
+            placeholder="Apartment, suite, unit, etc."
+            class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+          />
+        </div>
+        <div>
+          <label for="city" class="block text-sm font-medium text-gray-700">
+            City <span class="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            name="city"
+            id="city"
+            required
+            value="Saskatoon"
+            class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+          />
+        </div>
+      </div>
+    )}
+
+    <!-- Number of Vents (Residential Duct) -->
+    {fields.includes('vents') && (
+      <div>
+        <label for="vents" class="block text-sm font-medium text-gray-700">
+          Number of Vents <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="number"
+          name="vents"
+          id="vents"
+          min="1"
+          max="100"
+          required
+          placeholder="Enter a number from 1 to 100"
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        />
+        <p class="mt-1 text-xs text-gray-500">Please enter a number from 1 to 100</p>
+      </div>
+    )}
+
+    <!-- Number of Cold Air Returns (Residential Duct) -->
+    {fields.includes('coldAirReturns') && (
+      <div>
+        <label for="coldAirReturns" class="block text-sm font-medium text-gray-700">
+          Number of Cold Air Returns <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="number"
+          name="coldAirReturns"
+          id="coldAirReturns"
+          min="0"
+          max="100"
+          required
+          placeholder="Enter a number from 0 to 100"
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        />
+        <p class="mt-1 text-xs text-gray-500">Please enter a number from 0 to 100</p>
+      </div>
+    )}
+
+    <!-- Has Air Conditioning (Residential Duct) -->
+    {fields.includes('hasAC') && (
+      <div>
+        <label class="block text-sm font-medium text-gray-700 mb-2">
+          Do you have Air Conditioning? (AC) <span class="text-red-500">*</span>
+        </label>
+        <div class="flex gap-6">
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="hasAC"
+              value="yes"
+              required
+              class="h-4 w-4 text-primary-600 border-gray-300 focus:ring-primary-500"
+            />
+            <span class="text-gray-700">Yes</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer">
+            <input
+              type="radio"
+              name="hasAC"
+              value="no"
+              class="h-4 w-4 text-primary-600 border-gray-300 focus:ring-primary-500"
+            />
+            <span class="text-gray-700">No</span>
+          </label>
+        </div>
+      </div>
+    )}
+
+    <!-- Square Footage (Commercial) -->
+    {fields.includes('squareFootage') && (
+      <div>
+        <label for="squareFootage" class="block text-sm font-medium text-gray-700">
+          Approximate Square Footage <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          name="squareFootage"
+          id="squareFootage"
+          required
+          placeholder="e.g., 5,000 sq ft"
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        />
+      </div>
+    )}
+
+    <!-- Building Type (Commercial) -->
+    {fields.includes('buildingType') && (
+      <div>
+        <label for="buildingType" class="block text-sm font-medium text-gray-700">
+          Building Type <span class="text-red-500">*</span>
+        </label>
+        <select
+          name="buildingType"
+          id="buildingType"
+          required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        >
+          <option value="">Select building type</option>
+          <option value="office">Office Building</option>
+          <option value="retail">Retail Store</option>
+          <option value="restaurant">Restaurant</option>
+          <option value="warehouse">Warehouse</option>
+          <option value="medical">Medical/Dental Office</option>
+          <option value="school">School/Daycare</option>
+          <option value="church">Church/Community Center</option>
+          <option value="industrial">Industrial Facility</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    )}
+
+    <!-- Preferred Schedule (Commercial) -->
+    {fields.includes('preferredSchedule') && (
+      <div>
+        <label for="preferredSchedule" class="block text-sm font-medium text-gray-700">
+          Preferred Schedule <span class="text-gray-400">(optional)</span>
+        </label>
+        <select
+          name="preferredSchedule"
+          id="preferredSchedule"
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        >
+          <option value="">Select preferred time</option>
+          <option value="business-hours">During Business Hours</option>
+          <option value="after-hours">After Hours</option>
+          <option value="weekend">Weekend</option>
+          <option value="flexible">Flexible</option>
+        </select>
+        <p class="mt-1 text-xs text-gray-500">We offer after-hours service to minimize disruption</p>
+      </div>
+    )}
+
+    <!-- Dryer Location (Dryer Vent) -->
+    {fields.includes('dryerLocation') && (
+      <div>
+        <label for="dryerLocation" class="block text-sm font-medium text-gray-700">
+          Where is your dryer located? <span class="text-red-500">*</span>
+        </label>
+        <select
+          name="dryerLocation"
+          id="dryerLocation"
+          required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        >
+          <option value="">Select location</option>
+          <option value="main-floor">Main Floor</option>
+          <option value="basement">Basement</option>
+          <option value="second-floor">Second Floor</option>
+          <option value="garage">Garage</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+    )}
+
+    <!-- Vent Length (Dryer Vent) -->
+    {fields.includes('ventLength') && (
+      <div>
+        <label for="ventLength" class="block text-sm font-medium text-gray-700">
+          Approximate vent length to outside <span class="text-gray-400">(optional)</span>
+        </label>
+        <select
+          name="ventLength"
+          id="ventLength"
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        >
+          <option value="">Select if known</option>
+          <option value="short">Short (under 10 ft)</option>
+          <option value="medium">Medium (10-20 ft)</option>
+          <option value="long">Long (over 20 ft)</option>
+          <option value="unknown">Not sure</option>
+        </select>
+      </div>
+    )}
+
+    <!-- Insulation Type (Insulation Removal) -->
+    {fields.includes('insulationType') && (
+      <div>
+        <label for="insulationType" class="block text-sm font-medium text-gray-700">
+          Type of Insulation <span class="text-red-500">*</span>
+        </label>
+        <select
+          name="insulationType"
+          id="insulationType"
+          required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        >
+          <option value="">Select type</option>
+          <option value="blown-in">Blown-in (Cellulose/Fiberglass)</option>
+          <option value="batt">Batt/Roll Insulation</option>
+          <option value="vermiculite">Vermiculite</option>
+          <option value="spray-foam">Spray Foam</option>
+          <option value="unknown">Not sure</option>
+        </select>
+        <p class="mt-1 text-xs text-gray-500">If you suspect asbestos, please mention in description</p>
+      </div>
+    )}
+
+    <!-- Attic Size (Insulation Removal) -->
+    {fields.includes('atticSize') && (
+      <div>
+        <label for="atticSize" class="block text-sm font-medium text-gray-700">
+          Approximate Attic Size <span class="text-red-500">*</span>
+        </label>
+        <input
+          type="text"
+          name="atticSize"
+          id="atticSize"
+          required
+          placeholder="e.g., 1,200 sq ft or same as house footprint"
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        />
+      </div>
+    )}
+
+    <!-- Describe Your Situation -->
+    {fields.includes('situation') && (
+      <div>
+        <label for="situation" class="block text-sm font-medium text-gray-700">
+          Describe your situation <span class="text-red-500">*</span>
+        </label>
+        <textarea
+          name="situation"
+          id="situation"
+          rows="4"
+          required
+          placeholder="Please describe your needs, any concerns, or special circumstances..."
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        ></textarea>
+      </div>
+    )}
+
+    <!-- Urgency -->
+    {fields.includes('urgency') && (
+      <div>
+        <label for="urgency" class="block text-sm font-medium text-gray-700">
+          Urgency <span class="text-red-500">*</span>
+        </label>
+        <select
+          name="urgency"
+          id="urgency"
+          required
+          class="mt-1 block w-full rounded-lg border border-gray-300 px-4 py-2.5 shadow-sm focus:border-primary-500 focus:ring-primary-500"
+        >
+          <option value="">Select urgency</option>
+          <option value="urgent">Urgent! (ASAP)</option>
+          <option value="soon">Soon (Within 1-2 weeks)</option>
+          <option value="planning">Planning ahead (Within a month)</option>
+          <option value="flexible">Flexible (No rush)</option>
+        </select>
+      </div>
+    )}
+
+    <!-- Honeypot field for spam prevention -->
+    <div class="hidden" aria-hidden="true">
+      <label for="website_url">Website</label>
+      <input type="text" name="website_url" id="website_url" tabindex="-1" autocomplete="off" />
+    </div>
+
+    <!-- Status message -->
+    <div id="quote-form-status" class="hidden rounded-lg p-4"></div>
+
+    <!-- Submit Button -->
+    <div class="pt-2">
+      <button
+        type="submit"
+        id="quote-submit-btn"
+        class="w-full rounded-lg bg-primary-600 px-6 py-3.5 text-base font-semibold text-white shadow-sm transition-colors hover:bg-primary-700 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
+      >
+        <span id="quote-btn-text">Get Your Free Quote</span>
+        <span id="quote-btn-loading" class="hidden">
+          <svg class="animate-spin inline-block h-5 w-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          Submitting...
+        </span>
+      </button>
+    </div>
+
+    <p class="text-xs text-gray-500 text-center">
+      We'll get back to you within 1 business day with your personalized quote.
+    </p>
+  </form>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('quote-form') as HTMLFormElement;
+    const status = document.getElementById('quote-form-status') as HTMLDivElement;
+    const submitBtn = document.getElementById('quote-submit-btn') as HTMLButtonElement;
+    const btnText = document.getElementById('quote-btn-text') as HTMLSpanElement;
+    const btnLoading = document.getElementById('quote-btn-loading') as HTMLSpanElement;
+
+    if (!form) return;
+
+    const endpoint = form.dataset.endpoint || '/api/contact.php';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Get form data
+      const formData = new FormData(form);
+      const data: Record<string, string> = {};
+      formData.forEach((value, key) => {
+        data[key] = value.toString();
+      });
+
+      // Add subject line based on service type
+      data.subject = `Quote Request: ${data.serviceLabel}`;
+
+      // Show loading state
+      submitBtn.disabled = true;
+      btnText.classList.add('hidden');
+      btnLoading.classList.remove('hidden');
+      status.classList.add('hidden');
+
+      try {
+        const response = await fetch(endpoint, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+
+        const result = await response.json();
+
+        if (result.success) {
+          status.className = 'rounded-lg p-4 bg-green-50 text-green-800 border border-green-200';
+          status.innerHTML = `
+            <div class="flex items-center">
+              <svg class="h-5 w-5 mr-2 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              <span><strong>Quote request received!</strong> We'll get back to you within 1 business day.</span>
+            </div>
+          `;
+          form.reset();
+        } else {
+          status.className = 'rounded-lg p-4 bg-red-50 text-red-800 border border-red-200';
+          status.innerHTML = `
+            <div class="flex items-center">
+              <svg class="h-5 w-5 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+              ${result.message}
+            </div>
+          `;
+        }
+      } catch (error) {
+        status.className = 'rounded-lg p-4 bg-red-50 text-red-800 border border-red-200';
+        status.innerHTML = `
+          <div class="flex items-center">
+            <svg class="h-5 w-5 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+            </svg>
+            Unable to submit. Please call us at 306-222-3478.
+          </div>
+        `;
+        console.error('Form submission error:', error);
+      } finally {
+        submitBtn.disabled = false;
+        btnText.classList.remove('hidden');
+        btnLoading.classList.add('hidden');
+        status.classList.remove('hidden');
+        status.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      }
+    });
+  });
+</script>

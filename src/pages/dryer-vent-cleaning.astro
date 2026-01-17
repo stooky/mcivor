@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Section from '../components/Section.astro';
 import CTA from '../components/CTA.astro';
 import ReviewWidget from '../components/ReviewWidget.astro';
+import QuoteForm from '../components/QuoteForm.astro';
 import { siteConfig } from '../config/site';
 
 const phoneLink = `tel:${siteConfig.contact.phone}`;
@@ -100,7 +101,7 @@ const faqs = [
             Call 306-222-3478
           </a>
           <a
-            href="/contact"
+            href="#quote"
             class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-100 hover:shadow-xl"
           >
             Schedule Cleaning
@@ -198,6 +199,18 @@ const faqs = [
           </div>
         ))}
       </div>
+    </div>
+  </Section>
+
+  <!-- Quote Form Section -->
+  <Section
+    id="quote"
+    title="Schedule Your Dryer Vent Cleaning"
+    subtitle="Fill out the form below and we'll get back to you within 1 business day"
+    background="gray"
+  >
+    <div class="mx-auto max-w-2xl">
+      <QuoteForm serviceType="dryer-vent" title="Dryer Vent Cleaning Quote" />
     </div>
   </Section>
 

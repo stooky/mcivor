@@ -3,6 +3,7 @@ import Layout from '../layouts/Layout.astro';
 import Section from '../components/Section.astro';
 import CTA from '../components/CTA.astro';
 import ReviewWidget from '../components/ReviewWidget.astro';
+import QuoteForm from '../components/QuoteForm.astro';
 import { siteConfig } from '../config/site';
 
 const phoneLink = `tel:${siteConfig.contact.phone}`;
@@ -98,7 +99,7 @@ const faqs = [
             Call 306-222-3478
           </a>
           <a
-            href="/contact"
+            href="#quote"
             class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-100 hover:shadow-xl"
           >
             Get a Quote
@@ -201,6 +202,18 @@ const faqs = [
           </div>
         ))}
       </div>
+    </div>
+  </Section>
+
+  <!-- Quote Form Section -->
+  <Section
+    id="quote"
+    title="Get Your Insulation Removal Quote"
+    subtitle="Fill out the form below and we'll get back to you within 1 business day"
+    background="gray"
+  >
+    <div class="mx-auto max-w-2xl">
+      <QuoteForm serviceType="insulation" title="Insulation Removal Quote" />
     </div>
   </Section>
 
