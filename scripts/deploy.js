@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
- * Deploy script for C-Can Sam
+ * Deploy script for McIvor Power Vac
  *
  * Usage:
- *   npm run deploy:staging    - Deploy to ccan.crkid.com
- *   npm run deploy:prod       - Deploy to ccansam.com
+ *   npm run deploy:staging    - Deploy to mcivor.crkid.com
+ *   npm run deploy:prod       - Deploy to mcivorpowervac.com
  *   npm run deploy            - Deploy to staging (default)
  */
 
@@ -13,17 +13,17 @@ import { execSync } from 'child_process';
 const ENVIRONMENTS = {
   staging: {
     name: 'Staging',
-    host: 'ccan.crkid.com',
+    host: 'mcivor.crkid.com',
     user: 'root',
-    path: '/var/www/ccan',
-    url: 'https://ccan.crkid.com',
+    path: '/var/www/mcivor',
+    url: 'https://mcivor.crkid.com',
   },
   production: {
     name: 'Production',
-    host: 'ccansam.com',
+    host: 'mcivorpowervac.com',
     user: 'root',
-    path: '/var/www/ccan',
-    url: 'https://ccansam.com',
+    path: '/var/www/mcivor',
+    url: 'https://mcivorpowervac.com',
   },
 };
 
@@ -40,8 +40,8 @@ if (!env) {
 console.log(`\n🚀 Deploying to ${env.name} (${env.host})...\n`);
 
 const sshKey = '~/.ssh/id_rsa';
-const sshCmd = `ssh -i ${sshKey} ${env.user}@${env.host}`;
-const remoteCmd = `cd ${env.path} && git pull origin storage-containers && npm run build`;
+const sshCmd = `ssh -i ${sshKey} -o StrictHostKeyChecking=no ${env.user}@${env.host}`;
+const remoteCmd = `cd ${env.path} && git pull origin master && npm run build`;
 
 try {
   // Run the deploy command
