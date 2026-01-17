@@ -1,0 +1,217 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import CTA from '../components/CTA.astro';
+import ReviewWidget from '../components/ReviewWidget.astro';
+import { siteConfig } from '../config/site';
+
+const phoneLink = `tel:${siteConfig.contact.phone}`;
+
+// Reasons for removal
+const reasons = [
+  {
+    title: "Pest Contamination",
+    description: "Rodents, birds, or insects have infested and contaminated the insulation with droppings or nesting materials.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" /></svg>`,
+  },
+  {
+    title: "Water Damage",
+    description: "Roof leaks or flooding have soaked the insulation, reducing its effectiveness and promoting mold growth.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 15a4.5 4.5 0 004.5 4.5H18a3.75 3.75 0 001.332-7.257 3 3 0 00-3.758-3.848 5.25 5.25 0 00-10.233 2.33A4.502 4.502 0 002.25 15z" /></svg>`,
+  },
+  {
+    title: "Old or Degraded",
+    description: "Insulation that's settled, compressed, or past its useful life needs replacement to maintain energy efficiency.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+  },
+  {
+    title: "Renovation Projects",
+    description: "Planning attic renovations, electrical upgrades, or re-insulation? Old insulation needs to come out first.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" /></svg>`,
+  },
+];
+
+// Types we remove
+const types = [
+  "Blown-in cellulose insulation",
+  "Blown-in fiberglass insulation",
+  "Fiberglass batt insulation",
+  "Vermiculite insulation",
+  "Old rockwool insulation",
+  "Contaminated insulation of any type",
+];
+
+// FAQs
+const faqs = [
+  {
+    question: "How do you remove the insulation?",
+    answer: "We use powerful vacuum equipment specifically designed for insulation removal. The insulation is sucked directly into collection bags, minimizing dust and debris in your home. It's a clean, efficient process.",
+  },
+  {
+    question: "How long does insulation removal take?",
+    answer: "Most residential attic insulation removal projects take 2-4 hours depending on the attic size and the amount of insulation. Larger homes or difficult access may take longer.",
+  },
+  {
+    question: "What happens to the old insulation?",
+    answer: "We properly dispose of all removed insulation in accordance with local regulations. If the insulation is contaminated, we ensure it's disposed of safely and appropriately.",
+  },
+  {
+    question: "Do you install new insulation?",
+    answer: "Our specialty is removal. For new insulation installation, we recommend working with insulation contractors who can advise on the best type and R-value for your home. We're happy to provide referrals.",
+  },
+  {
+    question: "Is there asbestos in my insulation?",
+    answer: "If your home was built before 1990, there's a possibility of asbestos-containing insulation, particularly vermiculite. If you're concerned, we recommend having it tested before removal. We don't remove asbestos-containing materials.",
+  },
+];
+---
+
+<Layout
+  title="Insulation Removal"
+  description="Professional insulation removal services in Saskatoon. Safe removal of old, damaged, or contaminated attic insulation by McIvor Power Vac."
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-20 sm:py-28">
+    <div class="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-10"></div>
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl text-center">
+        <span class="inline-flex items-center rounded-full bg-primary-500/10 px-4 py-1.5 text-sm font-medium text-primary-300 ring-1 ring-inset ring-primary-500/20">
+          Professional Removal Service
+        </span>
+        <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          Insulation
+          <span class="text-primary-400">Removal</span>
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-gray-300">
+          Safe, efficient removal of old, damaged, or contaminated insulation from your attic. Prepare your home for new insulation or renovations with our professional removal service.
+        </p>
+
+        <!-- Primary CTAs -->
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <a
+            href={phoneLink}
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-primary-500 hover:shadow-xl"
+          >
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+            </svg>
+            Call 306-222-3478
+          </a>
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-100 hover:shadow-xl"
+          >
+            Get a Quote
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Banner -->
+  <div class="bg-primary-600 py-4">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-center font-bold text-white">
+        <span>Clean & Efficient</span>
+        <span class="hidden sm:inline">•</span>
+        <span>Proper Disposal</span>
+        <span class="hidden sm:inline">•</span>
+        <span>Saskatoon & Area</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Reasons Section -->
+  <Section
+    title="When You Need Insulation Removal"
+    subtitle="Common reasons homeowners need old insulation removed"
+    background="gray"
+  >
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {reasons.map((reason) => (
+        <div class="text-center">
+          <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+            <Fragment set:html={reason.icon} />
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900">{reason.title}</h3>
+          <p class="mt-2 text-gray-600">{reason.description}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Types We Remove -->
+  <Section
+    title="Types of Insulation We Remove"
+    subtitle="Professional removal of all common insulation types"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="grid gap-4 sm:grid-cols-2">
+        {types.map((type) => (
+          <div class="flex items-center gap-3">
+            <svg class="h-5 w-5 flex-shrink-0 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+            </svg>
+            <span class="text-gray-700">{type}</span>
+          </div>
+        ))}
+      </div>
+      <p class="mt-8 text-gray-600">
+        <strong>Note:</strong> We do not remove asbestos-containing materials. If you suspect your insulation contains asbestos (common in vermiculite insulation installed before 1990), please have it tested first.
+      </p>
+    </div>
+  </Section>
+
+  <!-- Our Process Section -->
+  <Section
+    title="Our Removal Process"
+    subtitle="Clean, efficient insulation removal"
+    background="gray"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-lg text-gray-600">
+        <p>
+          Using the same powerful vacuum equipment we use for duct cleaning, we efficiently remove insulation from your attic with minimal mess and dust in your living space.
+        </p>
+        <ol>
+          <li><strong>Assessment</strong> - We inspect the attic to assess the scope of work and identify any concerns</li>
+          <li><strong>Preparation</strong> - We protect your home by setting up our vacuum system and containment</li>
+          <li><strong>Removal</strong> - We systematically vacuum out all insulation, leaving the attic clean</li>
+          <li><strong>Inspection</strong> - We check for any remaining debris and ensure complete removal</li>
+          <li><strong>Disposal</strong> - All material is properly bagged and disposed of</li>
+        </ol>
+        <p>
+          Once we're done, your attic is ready for new insulation installation, electrical work, or whatever project you have planned.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- FAQs Section -->
+  <Section
+    title="Frequently Asked Questions"
+    subtitle="Common questions about insulation removal"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="divide-y divide-gray-200">
+        {faqs.map((faq) => (
+          <div class="py-6">
+            <h3 class="text-lg font-semibold text-gray-900">{faq.question}</h3>
+            <p class="mt-2 text-gray-600">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Google Reviews Widget -->
+  <ReviewWidget pagePath="/insulation-removal" />
+
+  <!-- Final CTA -->
+  <CTA
+    title="Need Insulation Removed?"
+    description="Contact us for a quote on insulation removal. We'll get your attic ready for its next chapter."
+    primaryButton={{ text: "Call 306-222-3478", href: phoneLink }}
+    secondaryButton={{ text: "Contact Us", href: "/contact" }}
+  />
+</Layout>

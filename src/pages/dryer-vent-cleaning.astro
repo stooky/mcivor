@@ -1,0 +1,214 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import CTA from '../components/CTA.astro';
+import ReviewWidget from '../components/ReviewWidget.astro';
+import { siteConfig } from '../config/site';
+
+const phoneLink = `tel:${siteConfig.contact.phone}`;
+
+// Warning signs
+const warningSigns = [
+  "Clothes take longer than normal to dry",
+  "Clothes are unusually hot after a cycle",
+  "Burning smell when the dryer is running",
+  "The dryer feels hot to the touch",
+  "Lint accumulating around the dryer",
+  "The vent hood flap doesn't open properly",
+  "It's been more than a year since your last cleaning",
+  "Excessive humidity in the laundry area",
+];
+
+// Benefits
+const benefits = [
+  {
+    title: "Fire Prevention",
+    description: "Lint buildup is a leading cause of house fires. Regular cleaning dramatically reduces this risk.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" /></svg>`,
+  },
+  {
+    title: "Energy Savings",
+    description: "A clogged vent makes your dryer work harder, using more energy. Clean vents mean lower utility bills.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 13.5l10.5-11.25L12 10.5h8.25L9.75 21.75 12 13.5H3.75z" /></svg>`,
+  },
+  {
+    title: "Faster Drying",
+    description: "Clean vents allow proper airflow, so your clothes dry faster and more efficiently.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+  },
+  {
+    title: "Extended Dryer Life",
+    description: "Reduced strain on your dryer means it will last longer and need fewer repairs.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" /></svg>`,
+  },
+];
+
+// FAQs
+const faqs = [
+  {
+    question: "How often should I have my dryer vent cleaned?",
+    answer: "We recommend annual dryer vent cleaning for most households. If you have a large family and do laundry frequently, you may benefit from cleaning every 6-9 months.",
+  },
+  {
+    question: "How long does dryer vent cleaning take?",
+    answer: "Most dryer vent cleanings take 30-60 minutes, depending on the length of the vent and amount of buildup. Longer or more complicated vents may take more time.",
+  },
+  {
+    question: "Can I clean my dryer vent myself?",
+    answer: "While you can clean the lint trap and the area right behind the dryer, professional cleaning reaches the entire length of the vent to the outside. Our equipment removes lint buildup that DIY methods can't reach.",
+  },
+  {
+    question: "What causes dryer vents to clog?",
+    answer: "Lint from clothes naturally accumulates in the vent over time. Long vent runs, bends in the ductwork, and crushing of flexible vents all contribute to faster buildup.",
+  },
+  {
+    question: "Is dryer vent cleaning really necessary?",
+    answer: "Absolutely. Clogged dryer vents are one of the leading causes of house fires. Beyond safety, clean vents save energy and extend the life of your dryer.",
+  },
+];
+---
+
+<Layout
+  title="Dryer Vent Cleaning"
+  description="Professional dryer vent cleaning in Saskatoon. Prevent fire hazards and improve dryer efficiency with McIvor Power Vac's thorough cleaning service."
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-20 sm:py-28">
+    <div class="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-10"></div>
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl text-center">
+        <span class="inline-flex items-center rounded-full bg-red-500/20 px-4 py-1.5 text-sm font-medium text-red-300 ring-1 ring-inset ring-red-500/30">
+          Fire Prevention Service
+        </span>
+        <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          Dryer Vent
+          <span class="text-primary-400">Cleaning</span>
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-gray-300">
+          Protect your home from fire hazards and improve your dryer's efficiency. Professional dryer vent cleaning removes dangerous lint buildup that can lead to house fires.
+        </p>
+
+        <!-- Primary CTAs -->
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <a
+            href={phoneLink}
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-primary-500 hover:shadow-xl"
+          >
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+            </svg>
+            Call 306-222-3478
+          </a>
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-100 hover:shadow-xl"
+          >
+            Schedule Cleaning
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Warning Banner -->
+  <div class="bg-red-600 py-4">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-center font-bold text-white">
+        <span>Dryer fires cause $35 million in damage annually</span>
+        <span class="hidden sm:inline">•</span>
+        <span>Most are preventable with regular cleaning</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Warning Signs Section -->
+  <Section
+    title="Warning Signs Your Dryer Vent Needs Cleaning"
+    subtitle="Don't ignore these signs - they could indicate a fire hazard"
+    background="gray"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="grid gap-4 sm:grid-cols-2">
+        {warningSigns.map((sign) => (
+          <div class="flex items-center gap-3 rounded-lg bg-white p-4 shadow-sm">
+            <svg class="h-5 w-5 flex-shrink-0 text-red-500" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126zM12 15.75h.007v.008H12v-.008z" />
+            </svg>
+            <span class="text-gray-700">{sign}</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Benefits Section -->
+  <Section
+    title="Benefits of Clean Dryer Vents"
+    subtitle="Safety, savings, and better performance"
+  >
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {benefits.map((benefit) => (
+        <div class="text-center">
+          <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+            <Fragment set:html={benefit.icon} />
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900">{benefit.title}</h3>
+          <p class="mt-2 text-gray-600">{benefit.description}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Our Process Section -->
+  <Section
+    title="Our Dryer Vent Cleaning Process"
+    subtitle="Thorough cleaning from dryer to exterior vent"
+    background="gray"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-lg text-gray-600">
+        <p>
+          We don't just clean the lint trap - we clean the entire vent system from your dryer to the exterior exhaust. Our process includes:
+        </p>
+        <ol>
+          <li><strong>Inspection</strong> - We assess the vent system and identify any problem areas</li>
+          <li><strong>Disconnection</strong> - We safely disconnect the dryer from the vent</li>
+          <li><strong>Thorough Cleaning</strong> - Using professional rotary brushes and high-powered vacuums, we remove all lint buildup</li>
+          <li><strong>Exterior Cleaning</strong> - We clean the exterior vent hood and ensure proper airflow</li>
+          <li><strong>Reconnection & Testing</strong> - We reconnect everything and verify proper operation</li>
+        </ol>
+        <p>
+          When we're done, you'll notice your dryer runs cooler and clothes dry faster. More importantly, you'll have peace of mind knowing your home is safer.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- FAQs Section -->
+  <Section
+    title="Frequently Asked Questions"
+    subtitle="Common questions about dryer vent cleaning"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="divide-y divide-gray-200">
+        {faqs.map((faq) => (
+          <div class="py-6">
+            <h3 class="text-lg font-semibold text-gray-900">{faq.question}</h3>
+            <p class="mt-2 text-gray-600">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Google Reviews Widget -->
+  <ReviewWidget pagePath="/dryer-vent-cleaning" />
+
+  <!-- Final CTA -->
+  <CTA
+    title="Protect Your Home Today"
+    description="Don't wait for a problem. Schedule your dryer vent cleaning and reduce the risk of fire."
+    primaryButton={{ text: "Call 306-222-3478", href: phoneLink }}
+    secondaryButton={{ text: "Contact Us", href: "/contact" }}
+  />
+</Layout>

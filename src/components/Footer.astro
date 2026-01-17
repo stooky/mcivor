@@ -1,11 +1,11 @@
 ---
 import { Image } from 'astro:assets';
 import { siteConfig } from '../config/site';
-import logoImage from '../assets/images/ccansam-logo.png';
+import logoImage from '../assets/images/mcivor-logo.png';
 
-// Calculate width to maintain aspect ratio at desired height (C-Can Sam logo is ~2.13:1 ratio)
+// Calculate width to maintain aspect ratio at desired height
 const logoHeight = 48;
-const logoWidth = Math.round(logoHeight * 2.13);
+const logoWidth = Math.round(logoHeight * 2.5);
 
 const socialIcons: Record<string, string> = {
   twitter: `<svg class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
@@ -61,23 +61,6 @@ const activeSocials = Object.entries(siteConfig.social).filter(([, url]) => url)
         <h3 class="text-sm font-semibold text-gray-900">Services</h3>
         <ul class="mt-4 space-y-3">
           {siteConfig.footerLinks.services.map((link) => (
-            <li>
-              <a
-                href={link.href}
-                class="text-sm text-gray-600 transition-colors hover:text-gray-900"
-              >
-                {link.name}
-              </a>
-            </li>
-          ))}
-        </ul>
-      </div>
-
-      <!-- Products Links -->
-      <div>
-        <h3 class="text-sm font-semibold text-gray-900">Containers</h3>
-        <ul class="mt-4 space-y-3">
-          {siteConfig.footerLinks.products.map((link) => (
             <li>
               <a
                 href={link.href}

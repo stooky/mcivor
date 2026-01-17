@@ -10,64 +10,64 @@ import ReviewWidget from '../components/ReviewWidget.astro';
 import { siteConfig } from '../config/site';
 import heroBg from '../assets/images/hero-bg.webp';
 
-// C-Can Sam Storage Services
+// McIvor Power Vac Services
 const features = [
   {
-    title: 'Container Rentals',
-    description: 'Choose flexible rental options designed to accommodate both temporary needs and long-term storage. Perfect for renovations, seasonal storage, or business inventory.',
-    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
-    href: '/on-site-storage-rentals',
+    title: 'Residential Duct Cleaning',
+    description: 'Complete cleaning of your home\'s air ducts, furnace, and HVAC system. Breathe cleaner air and improve your home\'s air quality.',
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" /></svg>`,
+    href: '/residential-duct-cleaning',
   },
   {
-    title: 'Container Sales',
-    description: 'Invest in a seacan for a permanent, secure storage solution. Our containers are built to last, offering peace of mind for whatever you need to store.',
-    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M20.25 7.5l-.625 10.632a2.25 2.25 0 01-2.247 2.118H6.622a2.25 2.25 0 01-2.247-2.118L3.75 7.5M10 11.25h4M3.375 7.5h17.25c.621 0 1.125-.504 1.125-1.125v-1.5c0-.621-.504-1.125-1.125-1.125H3.375c-.621 0-1.125.504-1.125 1.125v1.5c0 .621.504 1.125 1.125 1.125z" /></svg>`,
-    href: '/storage-container-sales-and-rentals',
+    title: 'Commercial Duct Cleaning',
+    description: 'Professional duct cleaning services for businesses, offices, and commercial buildings. Keep your employees and customers breathing clean air.',
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 21h16.5M4.5 3h15M5.25 3v18m13.5-18v18M9 6.75h1.5m-1.5 3h1.5m-1.5 3h1.5m3-6H15m-1.5 3H15m-1.5 3H15M9 21v-3.375c0-.621.504-1.125 1.125-1.125h3.75c.621 0 1.125.504 1.125 1.125V21" /></svg>`,
+    href: '/commercial-duct-cleaning',
   },
   {
-    title: 'On-Site Storage',
-    description: 'Secure and weatherproof storage at our Martensville facility. Ideal for personal, business, or industrial use with convenient access.',
-    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M8.25 21v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21m0 0h4.5V3.545M12.75 21h7.5V10.75M2.25 21h1.5m18 0h-18M2.25 9l4.5-1.636M18.75 3l-1.5.545m0 6.205l3 1m1.5.5l-1.5-.5M6.75 7.364V3h-3v18m3-13.636l10.5-3.819" /></svg>`,
-    href: '/on-site-storage-rentals',
+    title: 'Dryer Vent Cleaning',
+    description: 'Prevent fire hazards and improve dryer efficiency with professional dryer vent cleaning. Essential maintenance for every home.',
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M15.362 5.214A8.252 8.252 0 0112 21 8.25 8.25 0 016.038 7.048 8.287 8.287 0 009 9.6a8.983 8.983 0 013.361-6.867 8.21 8.21 0 003 2.48z" /><path stroke-linecap="round" stroke-linejoin="round" d="M12 18a3.75 3.75 0 00.495-7.467 5.99 5.99 0 00-1.925 3.546 5.974 5.974 0 01-2.133-1A3.75 3.75 0 0012 18z" /></svg>`,
+    href: '/dryer-vent-cleaning',
   },
   {
-    title: 'Off-Site Storage',
-    description: 'Keep your container at your property for easy access. We deliver to your preferred location within Saskatchewan for convenient storage.',
-    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" /></svg>`,
-    href: '/storage-container-sales-and-rentals#offsite',
+    title: 'Insulation Removal',
+    description: 'Safe and efficient removal of old, damaged, or contaminated insulation. Prepare your home for new insulation installation.',
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M14.25 9.75L16.5 12l-2.25 2.25m-4.5 0L7.5 12l2.25-2.25M6 20.25h12A2.25 2.25 0 0020.25 18V6A2.25 2.25 0 0018 3.75H6A2.25 2.25 0 003.75 6v12A2.25 2.25 0 006 20.25z" /></svg>`,
+    href: '/insulation-removal',
   },
 ];
 
 // Customer testimonials
 const testimonials = [
   {
-    quote: "Great service and competitive prices. The container was delivered on time and in excellent condition. Perfect for our farm storage needs.",
-    author: "Mike R.",
-    role: "Farm Owner",
-    company: "Warman, SK",
-  },
-  {
-    quote: "Easy to work with and very professional. They helped us find the right size container for our construction site. Will definitely use again.",
-    author: "Sarah L.",
-    role: "Project Manager",
+    quote: "Glen did an amazing job cleaning our ducts. Very thorough and professional. Our air quality has noticeably improved!",
+    author: "Jennifer M.",
+    role: "Homeowner",
     company: "Saskatoon, SK",
   },
   {
-    quote: "Reliable and affordable storage solutions. The rental process was straightforward and the delivery was quick. Highly recommend!",
-    author: "Dave K.",
-    role: "Business Owner",
-    company: "Martensville, SK",
+    quote: "Fast, efficient service. Glen took the time to show me what he cleaned and explained everything. Highly recommend!",
+    author: "Robert K.",
+    role: "Homeowner",
+    company: "Saskatoon, SK",
+  },
+  {
+    quote: "We've used McIvor Power Vac for years. Always reliable and does excellent work. Our furnace runs better after every cleaning.",
+    author: "Susan T.",
+    role: "Property Manager",
+    company: "Saskatoon, SK",
   },
 ];
 ---
 
-<Layout title="Home">
+<Layout title="Professional Duct Cleaning Saskatoon">
   <!-- Hero Section -->
   <Hero
-    title="Seacan Storage, Sales & Rentals"
-    subtitle="Whether you're decluttering, moving, renovating, or expanding your business, our storage solutions offer the flexibility and security you need. With a range of durable containers for sale or rent, we provide reliable options for both short-term and long-term storage needs."
-    primaryCta={{ text: "WhatsApp Us", href: "https://wa.me/13062814100?text=Hello%20there!%20I%20am%20interested%20in%20your%20services.", variant: "whatsapp" }}
-    secondaryCta={{ text: "Our Containers", href: "/storage-container-sales-and-rentals", variant: "blue" }}
+    title="Professional Duct Cleaning in Saskatoon"
+    subtitle="Glen McIvor has been providing top notch professional air duct cleaning services in Saskatoon and area for over a decade. We meticulously clean your entire furnace, AC and duct system - not rushing the process like many companies do."
+    primaryCta={{ text: "Call 306-222-3478", href: "tel:306-222-3478", variant: "primary" }}
+    secondaryCta={{ text: "Our Services", href: "#services", variant: "secondary" }}
     backgroundImage={heroBg}
   />
 
@@ -75,7 +75,7 @@ const testimonials = [
   <div class="bg-secondary-600 text-white py-3">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
       <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-4 text-center">
-        <span class="font-semibold">Saskatchewan's Premier Seacan Solutions Provider</span>
+        <span class="font-semibold">Saskatoon's Trusted Duct Cleaning Professionals</span>
         <span class="hidden sm:inline">|</span>
         <a href={`tel:${siteConfig.contact.phone}`} class="font-bold hover:underline">
           {siteConfig.contact.phone}
@@ -86,8 +86,9 @@ const testimonials = [
 
   <!-- Services Section -->
   <Section
-    title="Straightforward Shipping Container Sales & Rentals"
-    subtitle="Explore our versatile range of shipping containers available for sale and rent from our headquarters near Saskatoon, Saskatchewan."
+    id="services"
+    title="Our Duct Cleaning Services"
+    subtitle="Professional air duct cleaning services for residential and commercial properties in Saskatoon and surrounding areas."
     background="gray"
   >
     <FeatureGrid features={features} columns={4} />
@@ -95,42 +96,41 @@ const testimonials = [
 
   <!-- Why Choose Us Section -->
   <Section
-    title="Versatile Storage Options"
-    subtitle="Storage solutions for every need."
+    title="Why Choose McIvor Power Vac?"
+    subtitle="Experience the difference of thorough, professional duct cleaning."
   >
     <div class="grid gap-12 lg:grid-cols-2 lg:items-center">
       <div>
         <p class="text-lg text-gray-600">
-          Our seacans are ideal for various uses, from home projects to business storage.
-          Whether you need extra space for renovation or a secure spot for your business
-          inventory, our containers offer a reliable solution. With easy access from
-          Martensville, Warman, and the surrounding area, you can rest easy knowing that
-          your belongings are safe, secure, and close to home.
+          Many companies rush the process and miss important parts of your furnace, AC and duct system.
+          At McIvor Power Vac, we take our time to ensure every component is properly cleaned.
+          With over a decade of experience serving Saskatoon and area, you can trust us to
+          improve your home's air quality.
         </p>
         <ul class="mt-8 space-y-4">
           <li class="flex items-start gap-3">
             <svg class="mt-1 h-5 w-5 flex-shrink-0 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            <span class="text-gray-600"><strong>Move-in Ready</strong> - Containers delivered ready to use</span>
+            <span class="text-gray-600"><strong>Thorough Cleaning</strong> - We don't rush the process</span>
           </li>
           <li class="flex items-start gap-3">
             <svg class="mt-1 h-5 w-5 flex-shrink-0 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            <span class="text-gray-600"><strong>Weatherproof</strong> - Built to withstand Saskatchewan weather</span>
+            <span class="text-gray-600"><strong>Experienced</strong> - Over a decade of professional service</span>
           </li>
           <li class="flex items-start gap-3">
             <svg class="mt-1 h-5 w-5 flex-shrink-0 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            <span class="text-gray-600"><strong>Secure</strong> - Heavy-duty locks and steel construction</span>
+            <span class="text-gray-600"><strong>Complete System</strong> - Furnace, AC, and all ductwork</span>
           </li>
           <li class="flex items-start gap-3">
             <svg class="mt-1 h-5 w-5 flex-shrink-0 text-primary-600" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
             </svg>
-            <span class="text-gray-600"><strong>Delivery Available</strong> - We deliver throughout Saskatchewan</span>
+            <span class="text-gray-600"><strong>Local Service</strong> - Proudly serving Saskatoon and area</span>
           </li>
         </ul>
         <div class="mt-8">
@@ -149,20 +149,20 @@ const testimonials = [
         <!-- Service Highlights Grid -->
         <div class="grid grid-cols-2 gap-4">
           <div class="rounded-xl bg-primary-50 p-6 text-center">
-            <div class="text-3xl font-bold text-primary-600">Sales</div>
-            <div class="mt-1 text-sm text-gray-600">New & Used</div>
+            <div class="text-3xl font-bold text-primary-600">10+</div>
+            <div class="mt-1 text-sm text-gray-600">Years Experience</div>
           </div>
           <div class="rounded-xl bg-secondary-50 p-6 text-center">
-            <div class="text-3xl font-bold text-secondary-600">Rentals</div>
-            <div class="mt-1 text-sm text-gray-600">Flexible Terms</div>
+            <div class="text-3xl font-bold text-secondary-600">100%</div>
+            <div class="mt-1 text-sm text-gray-600">Satisfaction</div>
           </div>
           <div class="rounded-xl bg-secondary-50 p-6 text-center">
-            <div class="text-3xl font-bold text-secondary-600">Onsite</div>
-            <div class="mt-1 text-sm text-gray-600">Delivery Available</div>
+            <div class="text-3xl font-bold text-secondary-600">Residential</div>
+            <div class="mt-1 text-sm text-gray-600">& Commercial</div>
           </div>
           <div class="rounded-xl bg-primary-50 p-6 text-center">
-            <div class="text-3xl font-bold text-primary-600">Offsite</div>
-            <div class="mt-1 text-sm text-gray-600">Secure Storage</div>
+            <div class="text-3xl font-bold text-primary-600">Local</div>
+            <div class="mt-1 text-sm text-gray-600">Saskatoon Based</div>
           </div>
         </div>
       </div>
@@ -174,9 +174,9 @@ const testimonials = [
 
   <!-- CTA Section -->
   <CTA
-    title="Need a Shipping Container?"
-    description="We're here to help with your shipping container needs! Whether you're looking to buy or rent, our team is ready to guide you."
-    primaryButton={{ text: "Submit Your Inquiry", href: "/contact" }}
-    secondaryButton={{ text: "View Our Containers", href: "/storage-container-sales-and-rentals" }}
+    title="Ready for Cleaner Air?"
+    description="Contact us today to schedule your duct cleaning service. We're here to help improve your home's air quality!"
+    primaryButton={{ text: "Contact Us", href: "/contact" }}
+    secondaryButton={{ text: "Call 306-222-3478", href: "tel:306-222-3478" }}
   />
 </Layout>

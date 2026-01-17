@@ -1,0 +1,220 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Section from '../components/Section.astro';
+import CTA from '../components/CTA.astro';
+import ReviewWidget from '../components/ReviewWidget.astro';
+import { siteConfig } from '../config/site';
+
+const phoneLink = `tel:${siteConfig.contact.phone}`;
+
+// Benefits of commercial duct cleaning
+const benefits = [
+  {
+    title: "Healthier Workplace",
+    description: "Reduce sick days and improve employee well-being with cleaner indoor air.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M18 18.72a9.094 9.094 0 003.741-.479 3 3 0 00-4.682-2.72m.94 3.198l.001.031c0 .225-.012.447-.037.666A11.944 11.944 0 0112 21c-2.17 0-4.207-.576-5.963-1.584A6.062 6.062 0 016 18.719m12 0a5.971 5.971 0 00-.941-3.197m0 0A5.995 5.995 0 0012 12.75a5.995 5.995 0 00-5.058 2.772m0 0a3 3 0 00-4.681 2.72 8.986 8.986 0 003.74.477m.94-3.197a5.971 5.971 0 00-.94 3.197M15 6.75a3 3 0 11-6 0 3 3 0 016 0zm6 3a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0zm-13.5 0a2.25 2.25 0 11-4.5 0 2.25 2.25 0 014.5 0z" /></svg>`,
+  },
+  {
+    title: "Energy Savings",
+    description: "Clean HVAC systems run more efficiently, reducing your operating costs.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m-3-2.818l.879.659c1.171.879 3.07.879 4.242 0 1.172-.879 1.172-2.303 0-3.182C13.536 12.219 12.768 12 12 12c-.725 0-1.45-.22-2.003-.659-1.106-.879-1.106-2.303 0-3.182s2.9-.879 4.006 0l.415.33M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>`,
+  },
+  {
+    title: "Professional Image",
+    description: "Clean air ducts mean no dust on surfaces and a fresher environment for customers.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M2.25 21h19.5m-18-18v18m10.5-18v18m6-13.5V21M6.75 6.75h.75m-.75 3h.75m-.75 3h.75m3-6h.75m-.75 3h.75m-.75 3h.75M6.75 21v-3.375c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21M3 3h12m-.75 4.5H21m-3.75 3.75h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008zm0 3h.008v.008h-.008v-.008z" /></svg>`,
+  },
+  {
+    title: "Compliance",
+    description: "Meet indoor air quality standards and building maintenance requirements.",
+    icon: `<svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z" /></svg>`,
+  },
+];
+
+// Industries we serve
+const industries = [
+  {
+    title: "Office Buildings",
+    description: "Keep your employees healthy and productive with clean, fresh air throughout the workplace.",
+  },
+  {
+    title: "Retail Stores",
+    description: "Create a pleasant shopping environment for your customers with dust-free air circulation.",
+  },
+  {
+    title: "Restaurants & Food Service",
+    description: "Maintain air quality standards essential for food service establishments.",
+  },
+  {
+    title: "Healthcare Facilities",
+    description: "Critical air quality for clinics, dental offices, and healthcare environments.",
+  },
+  {
+    title: "Schools & Daycares",
+    description: "Protect children and staff with clean air in educational settings.",
+  },
+  {
+    title: "Warehouses & Industrial",
+    description: "Large-scale duct cleaning for industrial and warehouse facilities.",
+  },
+];
+
+// FAQs
+const faqs = [
+  {
+    question: "Can you work after business hours?",
+    answer: "Yes! We understand that business operations come first. We're happy to schedule duct cleaning after hours, on weekends, or during times that minimize disruption to your business.",
+  },
+  {
+    question: "How often should commercial ducts be cleaned?",
+    answer: "Most commercial buildings benefit from duct cleaning every 2-5 years, depending on the type of business, building age, and indoor air quality concerns. High-traffic or dusty environments may need more frequent cleaning.",
+  },
+  {
+    question: "Do you provide documentation for compliance purposes?",
+    answer: "Yes, we can provide before and after photos and documentation of the cleaning service for your building maintenance records.",
+  },
+  {
+    question: "How do you handle large commercial HVAC systems?",
+    answer: "We have the professional equipment and experience to handle commercial HVAC systems of all sizes. We'll assess your system and provide a customized cleaning plan.",
+  },
+];
+---
+
+<Layout
+  title="Commercial Duct Cleaning"
+  description="Professional commercial duct cleaning services in Saskatoon. Improve workplace air quality for offices, retail, restaurants, and commercial buildings."
+>
+  <!-- Hero Section -->
+  <section class="relative overflow-hidden bg-gradient-to-br from-gray-900 via-gray-800 to-primary-900 py-20 sm:py-28">
+    <div class="absolute inset-0 bg-[url('/images/grid-pattern.svg')] opacity-10"></div>
+    <div class="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="mx-auto max-w-3xl text-center">
+        <span class="inline-flex items-center rounded-full bg-primary-500/10 px-4 py-1.5 text-sm font-medium text-primary-300 ring-1 ring-inset ring-primary-500/20">
+          Professional Business Air Quality Service
+        </span>
+        <h1 class="mt-6 text-4xl font-bold tracking-tight text-white sm:text-5xl lg:text-6xl">
+          Commercial Duct
+          <span class="text-primary-400">Cleaning</span>
+        </h1>
+        <p class="mt-6 text-lg leading-8 text-gray-300">
+          Keep your employees and customers breathing clean air. Professional commercial duct cleaning for offices, retail spaces, restaurants, and industrial buildings in Saskatoon.
+        </p>
+
+        <!-- Primary CTAs -->
+        <div class="mt-10 flex flex-col gap-4 sm:flex-row sm:justify-center">
+          <a
+            href={phoneLink}
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-primary-600 px-6 py-4 text-lg font-semibold text-white shadow-lg transition-all hover:bg-primary-500 hover:shadow-xl"
+          >
+            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+            </svg>
+            Call 306-222-3478
+          </a>
+          <a
+            href="/contact"
+            class="inline-flex items-center justify-center gap-2 rounded-lg bg-white px-6 py-4 text-lg font-semibold text-gray-900 shadow-lg transition-all hover:bg-gray-100 hover:shadow-xl"
+          >
+            Request a Quote
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Banner -->
+  <div class="bg-primary-600 py-4">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-2 sm:gap-6 text-center font-bold text-white">
+        <span>Flexible Scheduling</span>
+        <span class="hidden sm:inline">•</span>
+        <span>After-Hours Available</span>
+        <span class="hidden sm:inline">•</span>
+        <span>Minimal Disruption</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Benefits Section -->
+  <Section
+    title="Benefits for Your Business"
+    subtitle="Clean air means a healthier, more productive workplace"
+    background="gray"
+  >
+    <div class="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
+      {benefits.map((benefit) => (
+        <div class="text-center">
+          <div class="mx-auto flex h-12 w-12 items-center justify-center rounded-lg bg-primary-100 text-primary-600">
+            <Fragment set:html={benefit.icon} />
+          </div>
+          <h3 class="mt-4 text-lg font-semibold text-gray-900">{benefit.title}</h3>
+          <p class="mt-2 text-gray-600">{benefit.description}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Industries Section -->
+  <Section
+    title="Industries We Serve"
+    subtitle="Professional duct cleaning for all types of commercial spaces"
+  >
+    <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {industries.map((industry) => (
+        <div class="rounded-lg bg-gray-50 p-6">
+          <h3 class="font-semibold text-gray-900">{industry.title}</h3>
+          <p class="mt-2 text-gray-600">{industry.description}</p>
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <!-- Why Choose Us Section -->
+  <Section
+    title="Why Choose McIvor Power Vac for Your Business?"
+    subtitle="Professional service that works around your schedule"
+    background="gray"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="prose prose-lg text-gray-600">
+        <p>
+          We understand that your business can't stop for duct cleaning. That's why we offer flexible scheduling options, including after-hours and weekend service to minimize disruption to your operations.
+        </p>
+        <p>
+          With over a decade of experience serving Saskatoon businesses, Glen McIvor provides the same thorough, professional service to commercial clients as residential. We don't cut corners - we clean your entire HVAC system properly.
+        </p>
+        <p>
+          From small retail spaces to large office buildings, we have the equipment and expertise to handle commercial duct cleaning of any scale.
+        </p>
+      </div>
+    </div>
+  </Section>
+
+  <!-- FAQs Section -->
+  <Section
+    title="Frequently Asked Questions"
+    subtitle="Common questions about commercial duct cleaning"
+  >
+    <div class="mx-auto max-w-3xl">
+      <div class="divide-y divide-gray-200">
+        {faqs.map((faq) => (
+          <div class="py-6">
+            <h3 class="text-lg font-semibold text-gray-900">{faq.question}</h3>
+            <p class="mt-2 text-gray-600">{faq.answer}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <!-- Google Reviews Widget -->
+  <ReviewWidget pagePath="/commercial-duct-cleaning" />
+
+  <!-- Final CTA -->
+  <CTA
+    title="Improve Your Workplace Air Quality"
+    description="Contact us today for a commercial duct cleaning quote. We'll work around your business schedule."
+    primaryButton={{ text: "Call 306-222-3478", href: phoneLink }}
+    secondaryButton={{ text: "Contact Us", href: "/contact" }}
+  />
+</Layout>

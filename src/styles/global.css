@@ -9,44 +9,44 @@
  */
 
 @theme {
-  /* Primary Brand Color - Coral/Salmon (from C-Can Sam logo) */
-  --color-primary-50: #fef5f3;
-  --color-primary-100: #fde8e4;
-  --color-primary-200: #fcd5cd;
-  --color-primary-300: #f9b5a8;
-  --color-primary-400: #f28c77;
-  --color-primary-500: #e56d54;
-  --color-primary-600: #d45c44;
-  --color-primary-700: #b24836;
-  --color-primary-800: #943e30;
-  --color-primary-900: #7b382c;
-  --color-primary-950: #431a13;
+  /* Primary Brand Color - Blue (from McIvor Power Vac logo) */
+  --color-primary-50: #e6f4fa;
+  --color-primary-100: #cce9f5;
+  --color-primary-200: #99d3eb;
+  --color-primary-300: #66bde1;
+  --color-primary-400: #33a7d7;
+  --color-primary-500: #0091cd;
+  --color-primary-600: #0077b6;
+  --color-primary-700: #005f92;
+  --color-primary-800: #00476d;
+  --color-primary-900: #002f49;
+  --color-primary-950: #001824;
 
-  /* Secondary Brand Color - Green (from C-Can Sam logo) */
-  --color-secondary-50: #f3f8f1;
-  --color-secondary-100: #e4f0df;
-  --color-secondary-200: #c9e1c1;
-  --color-secondary-300: #a2cb95;
-  --color-secondary-400: #7ab369;
-  --color-secondary-500: #5b9a4a;
-  --color-secondary-600: #467b38;
-  --color-secondary-700: #38612e;
-  --color-secondary-800: #2f4e28;
-  --color-secondary-900: #284122;
-  --color-secondary-950: #12230f;
+  /* Secondary Brand Color - Red (from McIvor Power Vac logo) */
+  --color-secondary-50: #fef2f2;
+  --color-secondary-100: #fee2e2;
+  --color-secondary-200: #fecaca;
+  --color-secondary-300: #fca5a5;
+  --color-secondary-400: #f87171;
+  --color-secondary-500: #dc2626;
+  --color-secondary-600: #c41e3a;
+  --color-secondary-700: #a31631;
+  --color-secondary-800: #7f1128;
+  --color-secondary-900: #5c0d1f;
+  --color-secondary-950: #3b0812;
 
-  /* Accent Color - Yellow (from pelican circle in logo) */
-  --color-accent-50: #fefbeb;
-  --color-accent-100: #fdf4c8;
-  --color-accent-200: #fbe88b;
-  --color-accent-300: #f9d84f;
-  --color-accent-400: #f4c75e;
-  --color-accent-500: #e6a615;
-  --color-accent-600: #ca800d;
-  --color-accent-700: #a85b0e;
-  --color-accent-800: #894712;
-  --color-accent-900: #743b14;
-  --color-accent-950: #431e07;
+  /* Accent Color - Yellow (from McIvor Power Vac logo) */
+  --color-accent-50: #fefce8;
+  --color-accent-100: #fef9c3;
+  --color-accent-200: #fef08a;
+  --color-accent-300: #fde047;
+  --color-accent-400: #facc15;
+  --color-accent-500: #ffe500;
+  --color-accent-600: #d4af00;
+  --color-accent-700: #a38600;
+  --color-accent-800: #725c00;
+  --color-accent-900: #413300;
+  --color-accent-950: #1f1900;
 
   /* Font Family */
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";

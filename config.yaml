@@ -9,10 +9,10 @@
 # Site Identity
 # -----------------------------------------------------------------------------
 site:
-  name: "Acme Corp"
-  tagline: "Your Trusted Business Partner"
-  description: "Professional services and solutions for your business needs. Quality, reliability, and exceptional customer service."
-  url: "https://example.com"
+  name: "McIvor Power Vac"
+  tagline: "Call For Saskatoon Duct Cleaning 306-222-3478"
+  description: "Professional air duct cleaning services in Saskatoon and area. Glen McIvor has been providing top notch professional duct cleaning services for over a decade."
+  url: "https://mcivorpowervac.com"
   default_og_image: "/images/logo.png"
 
 # -----------------------------------------------------------------------------
@@ -24,7 +24,7 @@ site:
 # Set to null if not available
 #
 products:
-  currency: "USD"
+  currency: "CAD"
   items:
     - size: "Small"
       slug: "small-package"
@@ -55,15 +55,15 @@ products:
 # Contact Information
 # -----------------------------------------------------------------------------
 contact:
-  email: "hello@example.com"
-  phone: "1-800-555-0100"
-  phone_local: "555-0100"
+  email: "info@mcivorductcleaning.com"
+  phone: "306-222-3478"
+  phone_local: "222-3478"
   address:
-    street: "123 Main Street"
-    city: "Anytown"
-    state: "CA"
-    zip: "90210"
-    country: "USA"
+    street: "410 Brightwater Crescent"
+    city: "Saskatoon"
+    state: "SK"
+    zip: "S7J-5H9"
+    country: "Canada"
 
 # -----------------------------------------------------------------------------
 # Business Hours
@@ -81,10 +81,10 @@ hours:
 # Social Media Links (leave empty to hide)
 # -----------------------------------------------------------------------------
 social:
-  facebook: "https://facebook.com/yourpage"
-  instagram: "https://instagram.com/yourpage"
+  facebook: ""
+  instagram: ""
   twitter: ""
-  linkedin: "https://linkedin.com/company/yourcompany"
+  linkedin: ""
   youtube: ""
   whatsapp: ""
   google_business: ""
@@ -97,54 +97,33 @@ navigation:
   main:
     - name: "Home"
       href: "/"
-    - name: "Services"
-      href: "/services"
-      children:
-        - name: "Buy"
-          href: "/services/buy"
-        - name: "Rent"
-          href: "/services/rent"
-        - name: "Lease"
-          href: "/services/lease"
-    - name: "Products"
-      href: "/products"
-    - name: "Blog"
-      href: "/blog"
-    - name: "About"
-      href: "/about"
-    - name: "Contact"
+    - name: "Residential Duct Cleaning"
+      href: "/residential-duct-cleaning"
+    - name: "Commercial Duct Cleaning"
+      href: "/commercial-duct-cleaning"
+    - name: "Dryer Vent Cleaning"
+      href: "/dryer-vent-cleaning"
+    - name: "Insulation Removal"
+      href: "/insulation-removal"
+    - name: "Contact us"
       href: "/contact"
 
   # Footer links
   footer:
     # Services - core offerings (primary SEO value)
     services:
-      - name: "Buy"
-        href: "/services/buy"
-      - name: "Rent"
-        href: "/services/rent"
-      - name: "Lease"
-        href: "/services/lease"
-      - name: "Custom Solutions"
-        href: "/services/custom"
-    # Products - specific product types (product SEO)
-    products:
-      - name: "Small Package"
-        href: "/products/small-package"
-      - name: "Medium Package"
-        href: "/products/medium-package"
-      - name: "Large Package"
-        href: "/products/large-package"
-      - name: "Premium Package"
-        href: "/products/premium-package"
+      - name: "Residential Duct Cleaning"
+        href: "/residential-duct-cleaning"
+      - name: "Commercial Duct Cleaning"
+        href: "/commercial-duct-cleaning"
+      - name: "Dryer Vent Cleaning"
+        href: "/dryer-vent-cleaning"
+      - name: "Insulation Removal"
+        href: "/insulation-removal"
     # Company - trust signals and engagement
     company:
       - name: "About Us"
         href: "/about"
-      - name: "Blog"
-        href: "/blog"
-      - name: "Referral Program"
-        href: "/referrals"
       - name: "Contact"
         href: "/contact"
     # Legal - compliance (required)
@@ -176,10 +155,10 @@ analytics:
 # -----------------------------------------------------------------------------
 contact_form:
   # Email address to receive form submissions
-  recipient_email: "hello@example.com"
+  recipient_email: "info@mcivorductcleaning.com"
 
   # Email subject prefix
-  subject_prefix: "[Website Contact]"
+  subject_prefix: "[McIvor Power Vac Website]"
 
 # -----------------------------------------------------------------------------
 # Email Sending (Resend API)
@@ -195,7 +174,7 @@ email:
 
   # From email address
   # Must be from a verified domain in Resend, or use: onboarding@resend.dev
-  from_email: "Acme Corp <hello@example.com>"
+  from_email: "McIvor Power Vac <info@mcivorductcleaning.com>"
 
 # -----------------------------------------------------------------------------
 # Admin Panel Settings
@@ -203,7 +182,7 @@ email:
 admin:
   # Secret URL path for admin access (e.g., /api/admin.php?key=your-secret-here)
   # Change this to something unique and hard to guess!
-  secret_path: "change-this-secret-2024"
+  secret_path: "mcivor-admin-7x9Kp2mNq4"
 
   # Number of submissions to show per page
   per_page: 50
